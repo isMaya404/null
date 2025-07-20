@@ -54,8 +54,8 @@ const MobileLayout = ({
         </div>
       </div>
 
-      <div className="w-full flex items-center justify-between px-4">
-        <div className="flex items-center gap-3">
+      <div className="w-full flex items-center justify-between container-px">
+        <div className="flex items-center">
           <Button
             variant="default"
             className="h-10 w-23 font-bold text-sm text-white cursor-pointer"

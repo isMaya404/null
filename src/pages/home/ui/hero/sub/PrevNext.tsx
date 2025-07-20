@@ -13,12 +13,13 @@ type PrevNext = {
 const PrevNext = ({ prev, next, index, totalIndex, className }: PrevNext) => {
   const mobile = useIsMobile();
 
-  const iconSize = !mobile ? 37 : 24;
+  // const iconSize = !mobile ? 37 : 24;
+  const iconSize = 24;
 
   return (
     <div
       className={cn(
-        mobile ? "w-35" : "w-45",
+        mobile ? "w-35" : "w-40",
         "select-none flex items-center  justify-between gap-5 relative text-light dark:text-stone-300",
         className
       )}
