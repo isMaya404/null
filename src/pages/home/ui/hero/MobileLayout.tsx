@@ -73,7 +73,7 @@ const MobileLayout = ({
           next={next}
           index={index}
           totalIndex={mediaLength}
-          // adjust pos on mobile light theme
+          // INFO: adjust pos on mobile light theme for visibility
           className={cn(isMobile && !isDarkTheme && "mb-6")}
         />
       </div>
