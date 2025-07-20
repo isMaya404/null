@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import BookmarkBtn from "./sub/BookmarkBtn";
 import PrevNext from "./sub/PrevNext";
 import { cn } from "@/lib/utils/cn";
-// TODO:
 
 type MobileProps = {
   index: number;
@@ -39,7 +38,6 @@ const MobileLayout = ({
     shortenedGenres.length === genres.length
       ? genres.join(", ")
       : shortenedGenres.join(", ") + "...";
-  // TODO:
 
   return (
     <div
