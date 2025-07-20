@@ -1,0 +1,5 @@
+schema: graphql.scheme.json
+documents:
+  - ./src/**/*.graphql
+  - ./src/**/*.gql
+

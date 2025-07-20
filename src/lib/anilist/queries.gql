@@ -1,0 +1,32 @@
+query HomePage($asHtml: Boolean) {
+    popular: Page(perPage: 10) {
+      media(type: ANIME, sort: POPULARITY_DESC, isAdult: false) {
+        id
+        title {
+          romaji
+          english
+        }
+        coverImage {
+          extraLarge
+        }
+        bannerImage
+        genres
+        description(asHtml: $asHtml)
+      }
+    }
+
+    trending: Page(perPage: 6) {
+      media(type: ANIME, sort: TRENDING_DESC, isAdult: false) {
+        id
+        title {
+          romaji
+          english
+        }
+        coverImage {
+          extraLarge
+        }
+        genres
+        description(asHtml: $asHtml)
+      }
+    }
+  }
