@@ -1,4 +1,8 @@
 @layer utilities {
+  .container-px {
+    @apply px-4 sm:px-8;
+  }
+
   .bd-w {
     @apply border border-white;
   }

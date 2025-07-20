@@ -2,7 +2,7 @@ import ModeToggle from "./ModeToggle";
 
 function Footer() {
   return (
-    <div className="flex flex-col gap-8 justify-center border-t  py-4 px-4 sm:px-8">
+    <div className="flex flex-col gap-8 justify-center border-t  py-4 container-px">
       <ModeToggle />
       <div className="text-neutral-500 flex flex-col gap-2">
         <p className="">Copyright © null</p>

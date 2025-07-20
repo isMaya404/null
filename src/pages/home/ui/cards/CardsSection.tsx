@@ -22,12 +22,13 @@ const CardsSection = () => {
     );
 
   return (
-    <div className="mx-auto max-w-[1550px] px-4">
+    <div className="mx-auto max-w-[1550px] container-px">
       <div className="flex-between flex pb-4">
         <h4 className="text-xl font-extrabold md:text-2xl">Trending</h4>{" "}
         <p className="extra-bold">View All</p>
       </div>
-      <div className="grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-10 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
+
+      <div className="grid justify-items-center grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-10 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
         {media.map((m) => (
           <Card
             key={m?.id}
