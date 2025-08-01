@@ -14,7 +14,12 @@ const DarkOverlays = () => {
       )}
 
       {isMediumUp && (
-        <div className="hero-gradient-to-right pointer-events-none absolute top-0 left-0 z-[11] h-full w-[60%]" />
+        <>
+          <div className="hero-gradient-to-right pointer-events-none absolute top-0 left-0 z-[11] h-full w-[60%]" />
+          {isDarkTheme && (
+            <div className="hero-gradient-to-left pointer-events-none absolute top-0 right-0 z-[11] h-full w-[4%]" />
+          )}
+        </>
       )}
     </>
   );

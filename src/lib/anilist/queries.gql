@@ -1,3 +1,5 @@
+#  NOTE: whenever I change a query run this to reflect changes $ npx graphql-codegen --verbose 
+
 query HomePage($asHtml: Boolean) {
     popular: Page(perPage: 10) {
       media(type: ANIME, sort: POPULARITY_DESC, isAdult: false) {

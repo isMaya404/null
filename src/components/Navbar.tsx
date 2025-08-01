@@ -66,7 +66,7 @@ function Nav() {
           ? "translateY(calc(-100% - 0.75rem))"
           : "translateY(0)",
       }}
-      className={`fixed top-3 right-[50%] z-[500] flex h-12 w-[90%] translate-x-1/2 items-center justify-between rounded-md bg-prim-dark/80 px-3 text-white transition-transform duration-400 dark:border`}
+      className={`fixed top-3 right-[50%] z-[500] flex h-12 w-[min(90%,1800px)] translate-x-1/2 items-center justify-between rounded-md bg-prim-dark/80 px-3 text-white transition-transform duration-400 dark:border`}
     >
       <div className="flex items-center gap-4">
         <MenuBtn />
