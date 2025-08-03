@@ -55,6 +55,10 @@
         @apply font-medium text-[20px];
     }
 
+    .text-18-medium {
+        @apply font-medium text-[18px];
+    }
+
     .text-16-medium {
         @apply font-medium text-[16px];
     }
