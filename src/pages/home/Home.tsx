@@ -10,7 +10,9 @@ const Home = () => {
         <div className="flex-1">
             <Nav />
 
-            <PersistSuspense fallback={<Skeleton className="w-full h-72" />}>
+            <PersistSuspense
+                fallback={<Skeleton className="w-full h-72 mb-20" />}
+            >
                 <Hero />
             </PersistSuspense>
 
