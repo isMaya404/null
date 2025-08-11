@@ -61,6 +61,7 @@ const Hero = () => {
         if (timeRef.current) clearInterval(timeRef.current);
         timeRef.current = setInterval(() => {
             setShowTransition(true);
+            setDirection("next");
             setIndex((i) => {
                 setPrevIndex(i);
                 return (i + 1) % media.length;
