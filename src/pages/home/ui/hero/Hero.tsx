@@ -98,6 +98,7 @@ const Hero = () => {
         () => media[index]?.genres?.filter((g) => typeof g === "string") ?? [],
         [media[index]]
     );
+
     return (
         <div className={clsx("h-92 relative")}>
             <div className="relative h-72 overflow-hidden">
