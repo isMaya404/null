@@ -1,22 +1,30 @@
 import Card from "@/components/Card";
 import fetchHomePageData from "@/lib/anilist/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import type { TrendingMedia } from "@/types/media";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useState } from "react";
 import { cn } from "@/lib/utils/cn";
-import CardPopup from "@/components/CardPopup";
+// import CardPopup from "@/components/CardPopup";
+import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
+import type { HomePageQuery } from "@/lib/anilist/gql/graphql";
 
 // NOTE: maybe props here for diff media.foo?
 const CardsSection = () => {
-    const { data, error, isFetching } = useSuspenseQuery({
-        queryKey: ["home-data"],
-        queryFn: fetchHomePageData,
+    const { data, error, isFetching } = useSuspenseQuery<HomePageQuery>({
+        queryKey: ["card-data"],
+        queryFn: () =>
+            fetchHomePageData({
+                perPage: 6,
+                type: MediaType.Anime,
+                sort: [MediaSort.TrendingDesc],
+            }),
         meta: { persist: true },
     });
-    let media = (data?.trending?.media ?? []).filter(
-        (m): m is TrendingMedia & { id: number } => !!m
+
+    let media = (data?.Page?.media ?? []).filter(
+        (m): m is NonNullable<typeof m> => m !== null
     );
+    // console.log(media);
 
     const [hoveredId, setHoveredId] = useState<number | null>(null);
 

@@ -7,11 +7,13 @@ import type {
 
 const client = new GraphQLClient("https://graphql.anilist.co");
 
-const fetchHomePageData = async (): Promise<HomePageQuery> => {
+const fetchHomePageData = async (
+    vars: HomePageQueryVariables
+): Promise<HomePageQuery> => {
     console.log("fetching home data...");
     const res = await client.request<HomePageQuery, HomePageQueryVariables>(
         HomePageDocument,
-        { asHtml: true }
+        vars
     );
     return res;
 };

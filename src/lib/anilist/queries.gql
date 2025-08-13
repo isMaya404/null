@@ -1,34 +1,57 @@
 #  NOTE: whenever I change a query run this to reflect changes $ npx graphql-codegen --verbose 
 
-query HomePage($asHtml: Boolean) {
-    popular: Page(perPage: 10) {
-      media(type: ANIME, sort: POPULARITY_DESC, isAdult: false) {
-        id
-        title {
-          romaji
-          english
-        }
-        coverImage {
-          extraLarge
-        }
-        bannerImage
-        genres
-        description(asHtml: $asHtml)
-      }
-    }
+query HomePage (
+    $page: Int,
+    $perPage: Int = 10,
+    $type: MediaType,
+    $search: String,
+    $genre_in: [String],
+    $season: MediaSeason,
+    $seasonYear: Int,
+    $format_in: [MediaFormat],
+    $status_in: [MediaStatus],
+    $sort: [MediaSort]
+    ) {
+    Page(page: $page, perPage: $perPage) {
+        media(
+            type: $type
+            search: $search
+            genre_in: $genre_in
+            season: $season
+            seasonYear: $seasonYear
+            format_in: $format_in
+            status_in: $status_in
+            sort: $sort
+            isAdult: false
 
-    trending: Page(perPage: 6) {
-      media(type: ANIME, sort: TRENDING_DESC, isAdult: false) {
-        id
-        title {
-          romaji
-          english
+            ) {
+            id
+            title {
+                romaji
+                english
+            }
+            coverImage {
+                extraLarge
+            }
+            genres
+            format
+            status
+            bannerImage
+            description(asHtml: true)
+            season
+            seasonYear
+            averageScore
+            popularity
+            episodes
+            studios(isMain: true) {
+                nodes {
+                    name
+                }
+            }
+            nextAiringEpisode {
+                airingAt,
+                timeUntilAiring
+            }
         }
-        coverImage {
-          extraLarge
-        }
-        genres
-        description(asHtml: $asHtml)
-      }
     }
-  }
+}
