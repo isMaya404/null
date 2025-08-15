@@ -14,19 +14,17 @@ import MobileLayout from "./MobileLayout";
 import LgScreenLayout from "./LgScreenLayout";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import fetchHomePageData from "@/lib/anilist/api";
-import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
-import type { HomePageQuery } from "@/lib/anilist/gql/graphql";
+import type {
+    HomePageQuery,
+    HomePageQueryVariables,
+} from "@/lib/anilist/gql/graphql";
 
 const NEXT_INTERVAL_MS = 10000;
 
-const Hero = () => {
+const Hero = (props: HomePageQueryVariables) => {
     const { data, error, isFetching } = useSuspenseQuery<HomePageQuery>({
         queryKey: ["hero-data"],
-        queryFn: () =>
-            fetchHomePageData({
-                type: MediaType.Anime,
-                sort: [MediaSort.PopularityDesc],
-            }),
+        queryFn: () => fetchHomePageData(props),
         meta: { persist: true },
     });
 

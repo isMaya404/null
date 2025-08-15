@@ -5,26 +5,27 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useState } from "react";
 import { cn } from "@/lib/utils/cn";
 // import CardPopup from "@/components/CardPopup";
-import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
-import type { HomePageQuery } from "@/lib/anilist/gql/graphql";
+import type {
+    HomePageQuery,
+    HomePageQueryVariables,
+} from "@/lib/anilist/gql/graphql";
 
-// NOTE: maybe props here for diff media.foo?
-const CardsSection = () => {
+type CardsSectionProps = {
+    qk: string;
+    sectionTitle: string;
+    props: HomePageQueryVariables;
+};
+
+const CardsSection = ({ qk, sectionTitle, props }: CardsSectionProps) => {
     const { data, error, isFetching } = useSuspenseQuery<HomePageQuery>({
-        queryKey: ["card-data"],
-        queryFn: () =>
-            fetchHomePageData({
-                perPage: 6,
-                type: MediaType.Anime,
-                sort: [MediaSort.TrendingDesc],
-            }),
+        queryKey: [qk],
+        queryFn: () => fetchHomePageData(props),
         meta: { persist: true },
     });
 
     let media = (data?.Page?.media ?? []).filter(
         (m): m is NonNullable<typeof m> => m !== null
     );
-    // console.log(media);
 
     const [hoveredId, setHoveredId] = useState<number | null>(null);
 
@@ -56,7 +57,7 @@ const CardsSection = () => {
     return (
         <div className="mx-auto max-w-[1400px] container-px mb-6">
             <div className="flex-between flex pb-4">
-                <h4 className="text-20-semibold">TRENDING NOW</h4>{" "}
+                <h4 className="text-20-semibold">{sectionTitle}</h4>{" "}
                 <p className="text-14-normal">View All</p>
             </div>
 
