@@ -7,7 +7,7 @@ import {
     useIsMobile,
     useMediaQuery,
 } from "@/hooks/useMediaQuery.ts";
-import useCooldown from "@/hooks/useCooldown";
+import useThrottle from "@/hooks/useThrottle";
 import { useEffect, useRef, useState, useMemo } from "react";
 import DarkOverlay from "./sub/DarkOverlay";
 import MobileLayout from "./MobileLayout";
@@ -41,7 +41,7 @@ const Hero = (props: HomePageQueryVariables) => {
         );
 
     // prevent rapid next/prev clicks
-    const canTrigger = useCooldown(450); // ms
+    const canTrigger = useThrottle(450); // ms
 
     // screen sizes
     const isTabletAndUp = useMediaQuery("(min-width: 640px)");
