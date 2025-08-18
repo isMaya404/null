@@ -107,7 +107,7 @@ const Hero = (props: HomePageQueryVariables) => {
     );
 
     return (
-        <div className={clsx("h-92 relative")}>
+        <div className={"h-92 relative mb-5"}>
             <div className="relative h-72 overflow-hidden">
                 {/* <Debug index={index} totalIndex={media.length} /> */}
 

@@ -1,0 +1,5 @@
+use this util class on all containers: 
+    .container-px {
+        @apply px-6 sm:px-8;
+    }
+

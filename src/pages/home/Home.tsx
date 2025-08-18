@@ -1,23 +1,20 @@
-import PersistSuspense from "@/components/PersistSuspense";
 import { Skeleton } from "@/components/ui/skeleton";
-import Hero from "./ui/hero/Hero";
-import CardsSection from "./ui/cards/CardsSection";
-import CardSectionSkeleton from "./ui/skeleton/CardSectionSkeleton";
-import Nav from "@/components/Navbar";
 import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
-import {
-    getCurrentSeason,
-    getCurrentSeasonYear,
-    getNextSeason,
-} from "@/lib/utils/dates";
+import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
+
+import FilterSection from "@/components/FilterSection";
+import Hero from "./ui/hero/Hero";
+import DefaultCardsSection from "./ui/cards/DefaultCardsSection";
+import CardSectionSkeleton from "./ui/skeletons/CardSectionSkeleton";
+import PersistSuspense from "@/components/PersistSuspense";
+import { useState } from "react";
+import useFilters from "@/hooks/useFilters";
 
 const Home = () => {
     const nextSeason = getNextSeason();
 
     return (
         <div className="flex-1">
-            <Nav />
-
             <PersistSuspense
                 fallback={<Skeleton className="w-full h-72 mb-20" />}
             >
@@ -28,8 +25,10 @@ const Home = () => {
                 />
             </PersistSuspense>
 
+            <FilterSection />
+
             <PersistSuspense fallback={<CardSectionSkeleton />}>
-                <CardsSection
+                <DefaultCardsSection
                     qk="trending-data"
                     sectionTitle="TRENDING NOW"
                     props={{
@@ -41,8 +40,8 @@ const Home = () => {
             </PersistSuspense>
 
             <PersistSuspense fallback={<CardSectionSkeleton />}>
-                <CardsSection
-                    qk="popularThisSeason"
+                <DefaultCardsSection
+                    qk="popular-this-season"
                     sectionTitle="POPULAR THIS SEASON"
                     props={{
                         perPage: 6,
@@ -55,8 +54,8 @@ const Home = () => {
             </PersistSuspense>
 
             <PersistSuspense fallback={<CardSectionSkeleton />}>
-                <CardsSection
-                    qk="upcomingNextSeason"
+                <DefaultCardsSection
+                    qk="upcoming-next-season"
                     sectionTitle="UPCOMING NEXT SEASON"
                     props={{
                         perPage: 6,
@@ -67,22 +66,6 @@ const Home = () => {
                     }}
                 />
             </PersistSuspense>
-
-            {/* <PersistSuspense fallback={<CardSectionSkeleton />}> */}
-            {/*     <CardsSection */}
-            {/*         perPage={6} */}
-            {/*         type={MediaType.Anime} */}
-            {/*         sort={[MediaSort.TrendingDesc]} */}
-            {/*     /> */}
-            {/* </PersistSuspense> */}
-            {/**/}
-            {/* <PersistSuspense fallback={<CardSectionSkeleton />}> */}
-            {/*     <CardsSection */}
-            {/*         perPage={6} */}
-            {/*         type={MediaType.Anime} */}
-            {/*         sort={[MediaSort.TrendingDesc]} */}
-            {/*     /> */}
-            {/* </PersistSuspense> */}
         </div>
     );
 };

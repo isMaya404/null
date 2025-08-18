@@ -1,5 +1,5 @@
 import { useHeroStore } from "@/stores/useHeroStore";
-import removeBrTags from "@/lib/utils/removeBrTags.ts";
+import removeBrTags from "@/lib/utils/removeBrTags";
 import PrevNext from "./sub/PrevNext";
 import DetailsBtn from "./sub/DetailsBtn";
 import BookmarkBtn from "./sub/BookmarkBtn";

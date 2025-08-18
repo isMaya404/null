@@ -5,41 +5,44 @@ import TanstackQueryProvider from "../contexts/TanstackQuery";
 import { ErrorBoundary } from "react-error-boundary";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import Nav from "@/components/Navbar";
 
 const FallbackRender = ({
-  error,
-  resetErrorBoundary,
+    error,
+    resetErrorBoundary,
 }: {
-  error: Error;
-  resetErrorBoundary: () => void;
+    error: Error;
+    resetErrorBoundary: () => void;
 }) => {
-  return (
-    <div className="mx-auto max-w-[2000px] px-4 min-h-screen flex flex-col items-center justify-center bg-prim text-fg p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4 text-red-600">
-        Something went wrong.
-      </h1>
-      <p className="text-sm text-muted-foreground mb-2">{error.message}</p>
-      <Button onClick={() => resetErrorBoundary()}>Try again</Button>
-    </div>
-  );
+    return (
+        <div className="mx-auto max-w-[2000px] px-4 min-h-screen flex flex-col items-center justify-center bg-prim text-fg p-4 text-center">
+            <h1 className="text-2xl font-bold mb-4 text-red-600">
+                Something went wrong.
+            </h1>
+            <p className="text-sm text-muted-foreground mb-2">
+                {error.message}
+            </p>
+            <Button onClick={() => resetErrorBoundary()}>Try again</Button>
+        </div>
+    );
 };
 
 function Root() {
-  const { reset } = useQueryErrorResetBoundary();
+    const { reset } = useQueryErrorResetBoundary();
 
-  return (
-    <ThemeProvider>
-      <TanstackQueryProvider>
-        <ErrorBoundary fallbackRender={FallbackRender} onReset={reset}>
-          <div className="mx-auto max-w-[2000px] flex flex-col min-h-screen">
-            {/* <Nav /> */}
-            <Outlet />
-            <Footer />
-          </div>
-        </ErrorBoundary>
-      </TanstackQueryProvider>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider>
+            <TanstackQueryProvider>
+                <ErrorBoundary fallbackRender={FallbackRender} onReset={reset}>
+                    <div className="mx-auto max-w-[2000px] flex flex-col min-h-screen">
+                        <Nav />
+                        <Outlet />
+                        <Footer />
+                    </div>
+                </ErrorBoundary>
+            </TanstackQueryProvider>
+        </ThemeProvider>
+    );
 }
 
 export default Root;

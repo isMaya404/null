@@ -10,7 +10,7 @@ query HomePage (
     $seasonYear: Int,
     $format_in: [MediaFormat],
     $status_in: [MediaStatus],
-    $sort: [MediaSort]
+    $sort: [MediaSort],
     ) {
     Page(page: $page, perPage: $perPage) {
         media(
@@ -53,5 +53,16 @@ query HomePage (
                 timeUntilAiring
             }
         }
+    }
+    GenreCollection
+    MediaTagCollection {
+        category
+        description
+        id
+        isAdult
+        isGeneralSpoiler
+        isMediaSpoiler
+        name
+        rank
     }
 }

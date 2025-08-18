@@ -1,6 +1,6 @@
 export type CardProps = {
     id: number;
-    title: string;
+    title?: string;
     coverImage: string;
     className?: string;
     onClick?: () => void;
@@ -38,7 +38,9 @@ const Card = ({
                     alt="Cover Image"
                 />
             </div>
-            <h4 className="description-clamp-2">{title}</h4>
+            {title && (
+                <h4 className="description-clamp-2 text-14-normal">{title}</h4>
+            )}
         </div>
     );
 };

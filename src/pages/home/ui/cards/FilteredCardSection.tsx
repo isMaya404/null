@@ -10,13 +10,12 @@ import type {
     HomePageQueryVariables,
 } from "@/lib/anilist/gql/graphql";
 
-type CardsSectionProps = {
+type FilteredCardsSectionProps = {
     qk: string;
-    sectionTitle: string;
     props: HomePageQueryVariables;
 };
 
-const CardsSection = ({ qk, sectionTitle, props }: CardsSectionProps) => {
+const FilteredCardsSection = ({ qk, props }: FilteredCardsSectionProps) => {
     const { data, error, isFetching } = useSuspenseQuery<HomePageQuery>({
         queryKey: [qk],
         queryFn: () => fetchHomePageData(props),
@@ -56,12 +55,7 @@ const CardsSection = ({ qk, sectionTitle, props }: CardsSectionProps) => {
 
     return (
         <div className="mx-auto max-w-[1400px] container-px mb-6">
-            <div className="flex-between flex pb-4">
-                <h4 className="text-20-semibold">{sectionTitle}</h4>{" "}
-                <p className="text-14-normal">View All</p>
-            </div>
-
-            <div className="grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            <div className="mb-[60px] grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {media.map((m) => {
                     // Dynamic airing date/time value that needs to displayed inside the popup depending if the anime is currently airing or has already aired.
                     // if aired within multiple years then, start year - end year (e.g 2011 - 2014)
@@ -146,4 +140,4 @@ const CardsSection = ({ qk, sectionTitle, props }: CardsSectionProps) => {
     );
 };
 
-export default CardsSection;
+export default FilteredCardsSection;

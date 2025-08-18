@@ -7,7 +7,7 @@
         @apply text-gray-500;
     }
 
-    .bd-w {
+    .b {
         @apply border border-white;
     }
 
@@ -53,6 +53,10 @@
 
     .text-20-medium {
         @apply font-medium text-[20px];
+    }
+
+    .text-18-bold {
+        @apply font-bold text-[18px];
     }
 
     .text-18-medium {
