@@ -24,7 +24,7 @@ const TanstackQueryProvider = ({ children }: PropsWithChildren) => {
             client={queryClient}
             persistOptions={{
                 persister: asyncStoragePersister,
-                // INFO: below option example usage 'PER QUERY' to enable persistence across refresh
+                // INFO: below is an example usage 'PER QUERY' to enable persistence across refresh
                 // useSuspenseQuery({
                 //   ...otherOptions,
                 //   meta: { persist: true },

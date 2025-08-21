@@ -2,7 +2,7 @@ import { ChevronUp, ChevronDown, Search } from "lucide-react";
 import useFilters from "@/hooks/useFilters";
 import sanitizeInput from "@/lib/utils/sanitizeInput";
 import { useNavigate, useLocation } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const FilterSection = () => {
     const searchVal =
@@ -47,7 +47,7 @@ const FilterSection = () => {
                 <div className="">Search</div>
                 <div className="border border-ring dark:border-0 dark:bg-sec relative w-full flex flex-between rounded-sm  h-[40px]">
                     <input
-                        value={search}
+                        value={search === undefined ? "" : search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="focus:ring-2 focus:ring-ring dark:focus:ring-0 rounded-md h-full w-full outline-none  pl-9"
                         type="search"

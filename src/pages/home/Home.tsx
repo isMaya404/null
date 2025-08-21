@@ -1,11 +1,12 @@
+import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 
 import FilterSection from "@/components/FilterSection";
 import Hero from "./ui/hero/Hero";
-import DefaultCardsSection from "./ui/cards/DefaultCardsSection";
-import CardSectionSkeleton from "./ui/skeletons/CardSectionSkeleton";
+import DefaultCardsSection from "@/components/cards/DefaultCardsSection";
+import CardSectionSkeleton from "@/components/skeletons/CardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
 import { useState } from "react";
 import useFilters from "@/hooks/useFilters";
@@ -16,7 +17,7 @@ const Home = () => {
     return (
         <div className="flex-1">
             <PersistSuspense
-                fallback={<Skeleton className="w-full h-72 mb-20" />}
+                fallback={<Skeleton className="w-full h-72 mb-25" />}
             >
                 <Hero
                     perPage={10}

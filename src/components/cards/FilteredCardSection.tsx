@@ -1,48 +1,54 @@
-import Card from "@/components/Card";
+import Card from "@/components/cards/Card";
 import fetchHomePageData from "@/lib/anilist/api";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils/cn";
 // import CardPopup from "@/components/CardPopup";
+
 import type {
     HomePageQuery,
     HomePageQueryVariables,
 } from "@/lib/anilist/gql/graphql";
+import FilteredCardSectionSkeleton from "../skeletons/FilteredCardSectionSkeleton";
 
-type DefaultCardsSectionProps = {
-    qk: string;
-    sectionTitle?: string;
+type FilteredCardsSectionProps = {
     props: HomePageQueryVariables;
 };
 
-const DefaultCardsSection = ({
-    qk,
-    sectionTitle,
-    props,
-}: DefaultCardsSectionProps) => {
-    const { data, error, isFetching } = useSuspenseQuery<HomePageQuery>({
-        queryKey: [qk],
-        queryFn: () => fetchHomePageData(props),
-        meta: { persist: true },
+// FIX: duplicate media being queried
+const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        error,
+        isFetchingNextPage,
+        isFetching,
+    } = useSuspenseInfiniteQuery<HomePageQuery>({
+        queryKey: ["search-media", props],
+        queryFn: ({ pageParam = 1 }) =>
+            fetchHomePageData({
+                ...props,
+                page: pageParam as number,
+                perPage: pageParam === 1 ? 20 : 6,
+            }),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => {
+            const info = lastPage?.Page?.pageInfo;
+            return info?.hasNextPage ? (info.currentPage ?? 0) + 1 : undefined;
+        },
+        meta: { persist: false },
+        // refetchOnMount: true,
+        // staleTime: 0,
     });
-
-    let media = (data?.Page?.media ?? []).filter(
-        (m): m is NonNullable<typeof m> => m !== null
-    );
+    const media =
+        data?.pages
+            .flatMap((page) => page.Page?.media ?? [])
+            .filter((m): m is NonNullable<typeof m> => m != null) || [];
 
     const [hoveredId, setHoveredId] = useState<number | null>(null);
-
-    if (error && !isFetching) throw error;
-    if (!media.length)
-        return (
-            <div className="flex h-72 items-center justify-center">
-                No anime banner found.
-            </div>
-        );
-
     const isLgAndUp = useMediaQuery("(min-width: 1024px)");
-
     const [popupSide, setPopupSide] = useState<"left" | "right">("right");
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLElement>, id: number) => {
@@ -54,17 +60,33 @@ const DefaultCardsSection = ({
         setPopupSide(cardCenterX <= screenFiftyFivePercentX ? "right" : "left");
     };
 
-    const isMd = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
-    const isLg = useMediaQuery("(min-width: 1024px) and (max-width: 1279px)");
-    media = isMd ? media.slice(0, 4) : isLg ? media.slice(0, 5) : media;
+    const sentinelRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if (!sentinelRef.current) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const [entry] = entries;
+                if (
+                    entry.isIntersecting &&
+                    hasNextPage &&
+                    !isFetchingNextPage
+                ) {
+                    fetchNextPage();
+                }
+            },
+            { rootMargin: "100px" }
+        );
+        observer.observe(sentinelRef.current);
+        return () => observer.disconnect();
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+    if (error) throw error;
+    if (media.length === 0 && !isFetching && !isFetchingNextPage) {
+        return <div className="text-center text-20-bold">No Results</div>;
+    }
 
     return (
         <div className="mx-auto max-w-[1400px] container-px mb-6">
-            <div className="flex-between flex pb-4">
-                <h4 className="text-18-bold">{sectionTitle}</h4>{" "}
-                <p className="text-14-normal">View All</p>
-            </div>
-
             <div className="mb-[60px] grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {media.map((m) => {
                     // Dynamic airing date/time value that needs to displayed inside the popup depending if the anime is currently airing or has already aired.
@@ -138,16 +160,22 @@ const DefaultCardsSection = ({
                                     m.title?.english ??
                                     "Title not found"
                                 }
-                                coverImage={
-                                    m.coverImage?.extraLarge ?? "/fallback.jpg"
-                                }
+                                coverImage={m.coverImage?.extraLarge}
                             />
                         </div>
                     );
                 })}
+
+                {isFetchingNextPage && (
+                    <div className="grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+                        <FilteredCardSectionSkeleton length={6} />
+                    </div>
+                )}
+
+                <div ref={sentinelRef} className="b h-10" />
             </div>
         </div>
     );
 };
 
-export default DefaultCardsSection;
+export default FilteredCardsSection;
