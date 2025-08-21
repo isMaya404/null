@@ -131,7 +131,7 @@ const DefaultCardsSection = ({
                                 title={
                                     m.title?.romaji ??
                                     m.title?.english ??
-                                    "NO TITLE FOUND"
+                                    undefined
                                 }
                                 coverImage={m.coverImage?.extraLarge}
                             />

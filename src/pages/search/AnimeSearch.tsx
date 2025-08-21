@@ -2,10 +2,9 @@ import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 
 import DefaultCardsSection from "@/components/cards/DefaultCardsSection";
-import CardSectionSkeleton from "@/components/skeletons/CardSectionSkeleton";
+import { DefaultCardSectionSkeleton } from "@/components/skeletons/DefaultCardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
 
-import FilterSection from "@/components/FilterSection";
 import useFilters from "@/hooks/useFilters";
 import FilteredCardsSection from "@/components/cards/FilteredCardSection";
 import { useEffect } from "react";
@@ -29,7 +28,9 @@ const AnimeSearch = () => {
             {!hasFiltersApplied ? (
                 <>
                     <div>
-                        <PersistSuspense fallback={<CardSectionSkeleton />}>
+                        <PersistSuspense
+                            fallback={<DefaultCardSectionSkeleton />}
+                        >
                             <DefaultCardsSection
                                 qk="trending-data"
                                 sectionTitle="TRENDING NOW"
@@ -41,7 +42,9 @@ const AnimeSearch = () => {
                             />
                         </PersistSuspense>
 
-                        <PersistSuspense fallback={<CardSectionSkeleton />}>
+                        <PersistSuspense
+                            fallback={<DefaultCardSectionSkeleton />}
+                        >
                             <DefaultCardsSection
                                 qk="popular-this-season"
                                 sectionTitle="POPULAR THIS SEASON"
@@ -54,7 +57,9 @@ const AnimeSearch = () => {
                             />
                         </PersistSuspense>
 
-                        <PersistSuspense fallback={<CardSectionSkeleton />}>
+                        <PersistSuspense
+                            fallback={<DefaultCardSectionSkeleton />}
+                        >
                             <DefaultCardsSection
                                 qk="upcoming-next-season"
                                 sectionTitle="UPCOMING NEXT SEASON"

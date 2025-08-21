@@ -51,12 +51,15 @@ const Card = ({
                     onError={() => setImgError(true)}
                     className={cn(
                         loaded ? "opacity-100 transition-opacity" : "opacity-0",
+                        !isDark && "",
                         "rounded h-full w-full object-cover transition-opacity duration-300"
                     )}
                 />
             </div>
-            {title && (
+            {title ? (
                 <h4 className="description-clamp-2 text-14-normal">{title}</h4>
+            ) : (
+                <h4 className="text-14-normal">NO TITLE</h4>
             )}
         </div>
     );

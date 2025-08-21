@@ -6,7 +6,7 @@ import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 import FilterSection from "@/components/FilterSection";
 import Hero from "./ui/hero/Hero";
 import DefaultCardsSection from "@/components/cards/DefaultCardsSection";
-import CardSectionSkeleton from "@/components/skeletons/CardSectionSkeleton";
+import { DefaultCardSectionSkeleton } from "@/components/skeletons/DefaultCardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
 import { useState } from "react";
 import useFilters from "@/hooks/useFilters";
@@ -28,7 +28,7 @@ const Home = () => {
 
             <FilterSection />
 
-            <PersistSuspense fallback={<CardSectionSkeleton />}>
+            <PersistSuspense fallback={<DefaultCardSectionSkeleton />}>
                 <DefaultCardsSection
                     qk="trending-data"
                     sectionTitle="TRENDING NOW"
@@ -40,7 +40,7 @@ const Home = () => {
                 />
             </PersistSuspense>
 
-            <PersistSuspense fallback={<CardSectionSkeleton />}>
+            <PersistSuspense fallback={<DefaultCardSectionSkeleton />}>
                 <DefaultCardsSection
                     qk="popular-this-season"
                     sectionTitle="POPULAR THIS SEASON"
@@ -54,7 +54,7 @@ const Home = () => {
                 />
             </PersistSuspense>
 
-            <PersistSuspense fallback={<CardSectionSkeleton />}>
+            <PersistSuspense fallback={<DefaultCardSectionSkeleton />}>
                 <DefaultCardsSection
                     qk="upcoming-next-season"
                     sectionTitle="UPCOMING NEXT SEASON"

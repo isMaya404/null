@@ -16,7 +16,6 @@ type FilteredCardsSectionProps = {
     props: HomePageQueryVariables;
 };
 
-// FIX: duplicate media being queried
 const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     const {
         data,
@@ -158,7 +157,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
                                 title={
                                     m.title?.romaji ??
                                     m.title?.english ??
-                                    "Title not found"
+                                    undefined
                                 }
                                 coverImage={m.coverImage?.extraLarge}
                             />

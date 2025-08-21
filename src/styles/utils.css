@@ -8,7 +8,7 @@
     }
 
     .b {
-        @apply border border-white;
+        @apply border border-white dark:border-gray-800;
     }
 
     .bd-r {
