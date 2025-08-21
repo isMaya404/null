@@ -85,8 +85,8 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     }
 
     return (
-        <div className="mx-auto max-w-[1400px] container-px mb-6">
-            <div className="mb-[60px] grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="mx-auto max-w-[1400px] container-px mb-[65px]">
+            <div className="grid justify-items-center gap-y-10 gap-x-6 sm:gap-x-8 lg:gap-x-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {media.map((m) => {
                     // Dynamic airing date/time value that needs to displayed inside the popup depending if the anime is currently airing or has already aired.
                     // if aired within multiple years then, start year - end year (e.g 2011 - 2014)
