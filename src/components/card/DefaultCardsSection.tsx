@@ -1,4 +1,4 @@
-import Card from "@/components/cards/Card";
+import Card from "./Card";
 import fetchHomePageData from "@/lib/anilist/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";

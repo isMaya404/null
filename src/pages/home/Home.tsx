@@ -1,15 +1,12 @@
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/lib/ui/shadcn/skeleton";
 import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 
 import FilterSection from "@/components/FilterSection";
 import Hero from "./ui/hero/Hero";
-import DefaultCardsSection from "@/components/cards/DefaultCardsSection";
-import { DefaultCardSectionSkeleton } from "@/components/skeletons/DefaultCardSectionSkeleton";
+import DefaultCardsSection from "@/components/card/DefaultCardsSection";
+import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
-import { useState } from "react";
-import useFilters from "@/hooks/useFilters";
 
 const Home = () => {
     const nextSeason = getNextSeason();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/lib/ui/shadcn/skeleton";
 import { cn } from "@/lib/utils/cn";
 import useIsDarkTheme from "@/hooks/useIsDarkTheme";
 

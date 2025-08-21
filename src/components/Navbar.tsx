@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { CircleUser } from "lucide-react";
 import { Menu } from "lucide-react";
 import { Search as SearchIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/lib/ui/shadcn/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/lib/ui/shadcn/dropdown-menu";
 
 const Search = () => {
     return (

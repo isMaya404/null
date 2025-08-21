@@ -1,6 +1,6 @@
 import { useIsMobile } from "@/hooks/useMediaQuery.ts";
 import useIsDarkTheme from "@/hooks/useIsDarkTheme";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/lib/ui/shadcn/button";
 import BookmarkBtn from "./sub/BookmarkBtn";
 import PrevNext from "./sub/PrevNext";
 import { cn } from "@/lib/utils/cn";

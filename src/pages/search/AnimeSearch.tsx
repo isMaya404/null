@@ -1,14 +1,14 @@
 import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 
-import DefaultCardsSection from "@/components/cards/DefaultCardsSection";
-import { DefaultCardSectionSkeleton } from "@/components/skeletons/DefaultCardSectionSkeleton";
+import DefaultCardsSection from "@/components/card/DefaultCardsSection";
+import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSectionSkeleton";
+import FilteredCardsSection from "@/components/card/FilteredCardSection";
+import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
 
 import useFilters from "@/hooks/useFilters";
-import FilteredCardsSection from "@/components/cards/FilteredCardSection";
 import { useEffect } from "react";
-import FilteredCardSectionSkeleton from "@/components/skeletons/FilteredCardSectionSkeleton";
 
 const AnimeSearch = () => {
     const { filters } = useFilters();
