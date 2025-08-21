@@ -2,7 +2,7 @@
 
 query HomePage (
     $page: Int,
-    $perPage: Int = 10,
+    $perPage: Int = 6,
     $type: MediaType,
     $search: String,
     $genre_in: [String],
