@@ -15,7 +15,10 @@ type FilteredCardsSectionProps = {
     props: HomePageQueryVariables;
 };
 
+// FIX: skeletons for subsequent request not working
 const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
+    // const stableProps = useMemo(() => props, [JSON.stringify(props)]);
+
     const {
         data,
         fetchNextPage,
@@ -24,16 +27,17 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
         isFetchingNextPage,
         isFetching,
     } = useSuspenseInfiniteQuery<HomePageQuery>({
-        queryKey: ["search-media", props],
-        queryFn: ({ pageParam = 1 }) =>
+        queryKey: ["search-media"],
+        queryFn: ({ pageParam }) =>
             fetchHomePageData({
                 ...props,
                 page: pageParam as number,
                 perPage: pageParam === 1 ? 20 : 6,
             }),
-        initialPageParam: 1,
+        initialPageParam: 0,
         getNextPageParam: (lastPage) => {
             const info = lastPage?.Page?.pageInfo;
+            console.log("currentPage: ", info?.currentPage);
             return info?.hasNextPage ? (info.currentPage ?? 0) + 1 : undefined;
         },
         meta: { persist: false },
@@ -64,11 +68,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
         const observer = new IntersectionObserver(
             (entries) => {
                 const [entry] = entries;
-                if (
-                    entry.isIntersecting &&
-                    hasNextPage &&
-                    !isFetchingNextPage
-                ) {
+                if (entry.isIntersecting && !isFetchingNextPage) {
                     fetchNextPage();
                 }
             },
@@ -82,9 +82,10 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     if (media.length === 0 && !isFetching && !isFetchingNextPage) {
         return <div className="text-center text-20-bold">No Results</div>;
     }
+    if (!hasNextPage) return;
 
     return (
-        <div className="mx-auto max-w-[1400px] container-px mb-[65px] grid justify-items-center gap-y-10 gap-x-6 sm:gap-x-8 lg:gap-x-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="mx-auto max-w-[1400px] container-px mb-[65px] card-section-grid">
             {media.map((m) => {
                 // Dynamic airing date/time value that needs to displayed inside the popup depending if the anime is currently airing or has already aired.
                 // if aired within multiple years then, start year - end year (e.g 2011 - 2014)
@@ -117,7 +118,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
             })}
 
             {isFetchingNextPage && (
-                <div className="grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+                <div className="card-section-grid">
                     <FilteredCardSectionSkeleton length={6} />
                 </div>
             )}
