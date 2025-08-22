@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen": "graphql-code-generator --config codegen.ts --verbose",
     "type": "tsc --noEmit src/**/*.{ts,tsx}"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-#  NOTE: whenever I change a query run this to reflect changes $ npx graphql-codegen --verbose 
+#  NOTE: whenever I change a query run this to reflect changes $ pnpm codegen 
 
 query HomePage (
     $page: Int,
