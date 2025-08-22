@@ -9,13 +9,14 @@ const DefaultCardSectionSkeleton = () => {
     const length = isMD ? 4 : isLG ? 5 : 6;
     const media = Array.from({ length });
     return (
+        // NOTE: mb is higher than 5px than the actual DefaultCardSectionSkeleton mb-60px to match gap/spacing
         <div className="mx-auto max-w-[1400px] container-px mb-[65px]">
             <div className="flex-between flex mb-4">
                 <Skeleton className="h-6 w-30 rounded" />
                 <Skeleton className="h-4 w-18 rounded" />
             </div>
 
-            <div className="grid justify-items-center gap-y-10 gap-x-6 sm:gap-x-8 lg:gap-x-10  grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            <div className="card-section-grid">
                 {media.map((_: any, i: number) => (
                     <React.Fragment key={i}>
                         <CardSkeleton />

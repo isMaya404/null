@@ -1,4 +1,8 @@
 @layer utilities {
+    .card-section-grid {
+        @apply grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6;
+    }
+
     .container-px {
         @apply px-6 sm:px-8;
     }
