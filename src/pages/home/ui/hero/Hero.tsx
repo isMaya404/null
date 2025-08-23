@@ -15,14 +15,14 @@ import LgScreenLayout from "./LgScreenLayout";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import fetchHomePageData from "@/lib/anilist/api";
 import type {
-    HomePageQuery,
-    HomePageQueryVariables,
+    MediaQuery,
+    MediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
 
 const NEXT_INTERVAL_MS = 10000;
 
-const Hero = (props: HomePageQueryVariables) => {
-    const { data, error, isFetching } = useSuspenseQuery<HomePageQuery>({
+const Hero = (props: MediaQueryVariables) => {
+    const { data, error, isFetching } = useSuspenseQuery<MediaQuery>({
         queryKey: ["hero-data"],
         queryFn: () => fetchHomePageData(props),
         meta: { persist: true },

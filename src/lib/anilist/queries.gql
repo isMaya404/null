@@ -1,6 +1,6 @@
 #  NOTE: whenever I change a query run this to reflect changes $ pnpm codegen 
 
-query HomePage (
+query Media (
     $page: Int,
     $perPage: Int = 6,
     $type: MediaType,
@@ -60,16 +60,5 @@ query HomePage (
             lastPage
             hasNextPage
         }
-    }
-    GenreCollection
-    MediaTagCollection {
-        category
-        description
-        id
-        isAdult
-        isGeneralSpoiler
-        isMediaSpoiler
-        name
-        rank
     }
 }

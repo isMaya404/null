@@ -5,16 +5,17 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useState } from "react";
 import { cn } from "@/lib/utils/cn";
 // import CardPopup from "@/components/CardPopup";
+
 import type {
-    HomePageQuery,
-    HomePageQueryVariables,
+    MediaQuery,
+    MediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
 import CardPopup from "./CardPopup";
 
 type DefaultCardsSectionProps = {
     qk: string;
     sectionTitle?: string;
-    props: HomePageQueryVariables;
+    props: MediaQueryVariables;
 };
 
 const DefaultCardsSection = ({
@@ -22,7 +23,7 @@ const DefaultCardsSection = ({
     sectionTitle,
     props,
 }: DefaultCardsSectionProps) => {
-    const { data, error, isFetching } = useSuspenseQuery<HomePageQuery>({
+    const { data, error, isFetching } = useSuspenseQuery<MediaQuery>({
         queryKey: [qk],
         queryFn: () => fetchHomePageData(props),
         meta: { persist: true },

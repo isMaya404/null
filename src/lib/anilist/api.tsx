@@ -1,18 +1,18 @@
 import { GraphQLClient } from "graphql-request";
-import { HomePageDocument } from "@/lib/anilist/gql/graphql";
+import { MediaDocument } from "@/lib/anilist/gql/graphql";
 import type {
-    HomePageQuery,
-    HomePageQueryVariables,
+    MediaQuery,
+    MediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
 
 const client = new GraphQLClient("https://graphql.anilist.co");
 
 const fetchHomePageData = async (
-    vars: HomePageQueryVariables
-): Promise<HomePageQuery> => {
+    vars: MediaQueryVariables
+): Promise<MediaQuery> => {
     console.log("querying data...");
-    const res = await client.request<HomePageQuery, HomePageQueryVariables>(
-        HomePageDocument,
+    const res = await client.request<MediaQuery, MediaQueryVariables>(
+        MediaDocument,
         vars
     );
     return res;

@@ -6,13 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import CardPopup from "./CardPopup";
 
 import type {
-    HomePageQuery,
-    HomePageQueryVariables,
+    MediaQuery,
+    MediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
 import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
 
 type FilteredCardsSectionProps = {
-    props: HomePageQueryVariables;
+    props: MediaQueryVariables;
 };
 
 // FIX: skeletons for subsequent request not working
@@ -26,7 +26,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
         error,
         isFetchingNextPage,
         isFetching,
-    } = useSuspenseInfiniteQuery<HomePageQuery>({
+    } = useSuspenseInfiniteQuery<MediaQuery>({
         queryKey: ["search-media"],
         queryFn: ({ pageParam }) =>
             fetchHomePageData({

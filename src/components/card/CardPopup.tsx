@@ -1,9 +1,9 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { HomePageQuery } from "@/lib/anilist/gql/graphql";
+import { MediaQuery } from "@/lib/anilist/gql/graphql";
 import { cn } from "@/lib/utils/cn";
 
 type Media = NonNullable<
-    NonNullable<NonNullable<HomePageQuery["Page"]>["media"]>[number]
+    NonNullable<NonNullable<MediaQuery["Page"]>["media"]>[number]
 >;
 
 const CardPopup = ({
