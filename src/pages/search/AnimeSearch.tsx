@@ -3,7 +3,7 @@ import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 
 import DefaultCardsSection from "@/components/card/DefaultCardsSection";
 import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSectionSkeleton";
-import FilteredCardsSection from "@/components/card/FilteredCardSection";
+import FilteredCardsSection from "@/components/card/FilteredCardSection.tsx";
 import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
 
