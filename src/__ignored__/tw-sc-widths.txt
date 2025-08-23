@@ -1,5 +1,0 @@
-sm	640px	Small screens (phones)
-md	768px	Medium (tablets)
-lg	1024px	Large (laptops)
-xl	1280px	Extra large (desktops)
-2xl	1536px	2x large (large desktops)

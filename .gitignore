@@ -26,4 +26,4 @@ dist-ssr
 .env
 repomix*
 tmp.txt
-*__ignored__/*
+src/_ignored/
