@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 .env
+.repomix*
 repomix*
 tmp.txt
 src/_ignored/
