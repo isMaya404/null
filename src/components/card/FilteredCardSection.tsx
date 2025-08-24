@@ -123,7 +123,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
                 </div>
             )}
 
-            <div ref={sentinelRef} className="b h-10" />
+            <div ref={sentinelRef} className="h-10" />
         </div>
     );
 };
