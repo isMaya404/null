@@ -1,8 +1,8 @@
 import Card from "./Card";
-import fetchHomePageData from "@/lib/anilist/api";
+import AniListMediaData from "@/lib/anilist/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CardPopup from "./CardPopup";
 
 import type {
@@ -17,8 +17,6 @@ type FilteredCardsSectionProps = {
 
 // FIX: skeletons for subsequent request not working
 const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
-    // const stableProps = useMemo(() => props, [JSON.stringify(props)]);
-
     const {
         data,
         fetchNextPage,
@@ -29,7 +27,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     } = useSuspenseInfiniteQuery<MediaQuery>({
         queryKey: ["search-media"],
         queryFn: ({ pageParam }) =>
-            fetchHomePageData({
+            AniListMediaData({
                 ...props,
                 page: pageParam as number,
                 perPage: 10,
@@ -72,7 +70,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
                     fetchNextPage();
                 }
             },
-            { rootMargin: "100px" }
+            { rootMargin: "-100px" },
         );
         observer.observe(sentinelRef.current);
         return () => observer.disconnect();
@@ -82,25 +80,17 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     if (media.length === 0 && !isFetching && !isFetchingNextPage) {
         return <div className="text-center text-20-bold">No Results</div>;
     }
-    if (!hasNextPage) return;
 
     return (
         <div className="mx-auto max-w-[1400px] container-px mb-[65px] card-section-grid">
             {media.map((m) => {
-                // Dynamic airing date/time value that needs to displayed inside the popup depending if the anime is currently airing or has already aired.
-                // if aired within multiple years then, start year - end year (e.g 2011 - 2014)
-                // if aired in a single season then, seeason year (e.g Fall 2022)
-                // if will be aired in a month or more then, a normal date maybe? (e.g Airing on August 2, 2025)
-                // hours left and what ep is it (e.g Ep 5 is airing in 2 hours)
-                // days left and what ep is it (e.g Ep 9 is airing in 5 days)
-
                 const numberOfDaysLeft = Math.floor(
-                    (m?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400
+                    (m?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400,
                 );
 
                 return (
                     <div key={m.id} className="w-full relative">
-                        {isLgAndUp && hoveredId === m.id && (
+                        {hasNextPage && isLgAndUp && hoveredId === m.id && (
                             <CardPopup media={m} popupSide={popupSide} />
                         )}
 

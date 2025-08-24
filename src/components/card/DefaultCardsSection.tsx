@@ -1,5 +1,5 @@
 import Card from "./Card";
-import fetchHomePageData from "@/lib/anilist/api";
+import AniListMediaData from "@/lib/anilist/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useState } from "react";
@@ -25,13 +25,13 @@ const DefaultCardsSection = ({
 }: DefaultCardsSectionProps) => {
     const { data, error, isFetching } = useSuspenseQuery<MediaQuery>({
         queryKey: [qk],
-        queryFn: () => fetchHomePageData(props),
+        queryFn: () => AniListMediaData(props),
         meta: { persist: true },
     });
 
     let media =
         (data?.Page?.media ?? []).filter(
-            (m): m is NonNullable<typeof m> => m !== null
+            (m): m is NonNullable<typeof m> => m !== null,
         ) ?? [];
 
     const [hoveredId, setHoveredId] = useState<number | null>(null);
@@ -72,7 +72,7 @@ const DefaultCardsSection = ({
                     // days left and what ep is it (e.g Ep 9 is airing in 5 days)
 
                     const numberOfDaysLeft = Math.floor(
-                        (m?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400
+                        (m?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400,
                     );
 
                     return (

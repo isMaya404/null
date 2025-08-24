@@ -7,15 +7,15 @@ import type {
 
 const client = new GraphQLClient("https://graphql.anilist.co");
 
-const fetchHomePageData = async (
-    vars: MediaQueryVariables
+const AniListMediaData = async (
+    vars: MediaQueryVariables,
 ): Promise<MediaQuery> => {
     console.log("querying data...");
     const res = await client.request<MediaQuery, MediaQueryVariables>(
         MediaDocument,
-        vars
+        vars,
     );
     return res;
 };
 
-export default fetchHomePageData;
+export default AniListMediaData;
