@@ -76,7 +76,7 @@ const AnimeSearch = () => {
                 </>
             ) : (
                 <PersistSuspense
-                    fallback={<FilteredCardSectionSkeleton length={20} />}
+                    fallback={<FilteredCardSectionSkeleton length={10} />}
                 >
                     <FilteredCardsSection
                         props={{
