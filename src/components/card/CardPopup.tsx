@@ -13,10 +13,10 @@ type Media = NonNullable<
 // if will be aired in a month or more then, a normal date maybe? (e.g Airing on August 2, 2025)
 // hours left and what ep is it (e.g Ep 5 is airing in 2 hours)
 // days left and what ep is it (e.g Ep 9 is airing in 5 days)
+
 const CardPopup = ({
     media,
     popupSide,
-    className,
 }: {
     media: Media;
     popupSide: "left" | "right";
@@ -27,7 +27,7 @@ const CardPopup = ({
         <div
             className={cn(
                 popupSide === "left" ? "right-[110%]" : "left-[110%]",
-                "flex flex-col justify-evenly align-center card-popup-anim absolute top-[1rem] z-10 bg-white dark:bg-sec p-4 rounded-lg shadow-md h-[170px] w-[320px]"
+                "flex flex-col justify-evenly align-center card-popup-anim absolute top-[1rem] z-10 bg-white dark:bg-sec p-4 rounded-lg shadow-md h-[170px] w-[320px]",
             )}
         >
             {/* Card popup contents */}
@@ -37,7 +37,8 @@ const CardPopup = ({
                     {/* timeUntilAiring is in seconds so it's divided by 86400, the num of seconds in a day, */}
                     {/* then flooring it getting only a whole number number of days */}
                     {Math.floor(
-                        (media?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400
+                        (media?.nextAiringEpisode?.timeUntilAiring ?? 0) /
+                            86400,
                     )}
                 </div>{" "}
                 <div>86%</div>
@@ -58,7 +59,7 @@ const CardPopup = ({
                     popupSide === "left"
                         ? "-right-2 border-l-10 border-l-white dark:border-l-sec"
                         : "-left-2 border-r-10 border-r-white dark:border-r-sec",
-                    "absolute top-6 w-0 h-0 border-y-10 border-y-transparent"
+                    "absolute top-6 w-0 h-0 border-y-10 border-y-transparent",
                 )}
             ></div>
         </div>
