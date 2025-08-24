@@ -32,18 +32,17 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
             fetchHomePageData({
                 ...props,
                 page: pageParam as number,
-                perPage: pageParam === 1 ? 20 : 6,
+                perPage: 10,
             }),
-        initialPageParam: 0,
+        initialPageParam: 1,
         getNextPageParam: (lastPage) => {
             const info = lastPage?.Page?.pageInfo;
-            console.log("currentPage: ", info?.currentPage);
-            return info?.hasNextPage ? (info.currentPage ?? 0) + 1 : undefined;
+            if (!info?.hasNextPage || !info.currentPage) return undefined;
+            return info.currentPage + 1;
         },
         meta: { persist: false },
-        // refetchOnMount: true,
-        // staleTime: 0,
     });
+
     const media =
         data?.pages
             .flatMap((page) => page.Page?.media ?? [])
@@ -63,6 +62,7 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     };
 
     const sentinelRef = useRef<HTMLDivElement | null>(null);
+
     useEffect(() => {
         if (!sentinelRef.current) return;
         const observer = new IntersectionObserver(
