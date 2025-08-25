@@ -1,6 +1,6 @@
-#  NOTE: whenever I change a query run this to reflect changes $ pnpm codegen 
+#  NOTE: to reflect changes run $ pnpm codegen 
 
-query Media (
+query AnilistMedia (
     $page: Int,
     $perPage: Int = 6,
     $type: MediaType,

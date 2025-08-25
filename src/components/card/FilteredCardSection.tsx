@@ -2,7 +2,7 @@ import Card from "./Card";
 import AniListMediaData from "@/lib/anilist/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CardPopup from "./CardPopup";
 
 import type {

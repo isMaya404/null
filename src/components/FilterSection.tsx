@@ -41,6 +41,7 @@ const FilterSection = () => {
         }
     };
 
+    // TODO: create a popup component from scratch atleast comparable to radix ui's components
     return (
         <div className="max-w-[1400px] mx-auto container-px grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 place-items-center mb-[60px] gap-x-6 gap-y-4">
             <div className="flex flex-col gap-2 w-full">
@@ -49,7 +50,7 @@ const FilterSection = () => {
                     <input
                         value={search === undefined ? "" : search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="focus:ring-2 focus:ring-ring dark:focus:ring-0 rounded-md h-full w-full outline-none  pl-9"
+                        className="focus:ring-2 focus:ring-ring rounded-md h-full w-full outline-none  pl-9"
                         type="search"
                     />
                     <Search
