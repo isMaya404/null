@@ -51,8 +51,7 @@ const Card = ({
                     onError={() => setImgError(true)}
                     className={cn(
                         loaded ? "opacity-100 transition-opacity" : "opacity-0",
-                        !isDark && "",
-                        "rounded h-full w-full object-cover transition-opacity duration-300"
+                        "rounded h-full w-full object-cover transition-opacity duration-300",
                     )}
                 />
             </div>

@@ -22,6 +22,9 @@ const CardPopup = ({
     popupSide: "left" | "right";
     className?: string;
 }) => {
+    const numberOfDaysLeft = Math.floor(
+        (media?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400,
+    );
     const isLgAndUp = useMediaQuery("(min-width: 1024px)");
     return (
         <div

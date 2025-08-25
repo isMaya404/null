@@ -8,7 +8,7 @@ import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSecti
 import PersistSuspense from "@/components/PersistSuspense";
 
 import useFilters from "@/hooks/useFilters";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 const AnimeSearch = () => {
     const { filters } = useFilters();
@@ -75,8 +75,12 @@ const AnimeSearch = () => {
                     </div>
                 </>
             ) : (
-                <PersistSuspense
-                    fallback={<FilteredCardSectionSkeleton length={10} />}
+                <Suspense
+                    fallback={
+                        <div className="mx-auto max-w-[1400px] container-px mb-[65px] card-section-grid">
+                            <FilteredCardSectionSkeleton length={10} />
+                        </div>
+                    }
                 >
                     <FilteredCardsSection
                         props={{
@@ -85,7 +89,7 @@ const AnimeSearch = () => {
                             ...filters,
                         }}
                     />
-                </PersistSuspense>
+                </Suspense>
             )}
         </>
     );

@@ -15,7 +15,6 @@ type FilteredCardsSectionProps = {
     props: MediaQueryVariables;
 };
 
-// FIX: skeletons for subsequent request not working
 const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     const {
         data,
@@ -66,7 +65,11 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
         const observer = new IntersectionObserver(
             (entries) => {
                 const [entry] = entries;
-                if (entry.isIntersecting && !isFetchingNextPage) {
+                if (
+                    hasNextPage &&
+                    entry.isIntersecting &&
+                    !isFetchingNextPage
+                ) {
                     fetchNextPage();
                 }
             },
@@ -82,39 +85,40 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     }
 
     return (
-        <div className="mx-auto max-w-[1400px] container-px mb-[65px] card-section-grid">
-            {media.map((m) => {
-                const numberOfDaysLeft = Math.floor(
-                    (m?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400,
-                );
+        <>
+            <div className="mx-auto max-w-[1400px] container-px mb-[65px] card-section-grid">
+                {media.map((m) => {
+                    const numberOfDaysLeft = Math.floor(
+                        (m?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400,
+                    );
 
-                return (
-                    <div key={m.id} className="w-full relative">
-                        {hasNextPage && isLgAndUp && hoveredId === m.id && (
-                            <CardPopup media={m} popupSide={popupSide} />
-                        )}
+                    return (
+                        <div key={m.id} className="w-full relative">
+                            {isLgAndUp && hoveredId === m.id && (
+                                <CardPopup media={m} popupSide={popupSide} />
+                            )}
 
-                        <Card
-                            onMouseEnter={(e) => handleMouseEnter(e, m.id)}
-                            onMouseLeave={() => setHoveredId(null)}
-                            id={m.id}
-                            title={
-                                m.title?.romaji ?? m.title?.english ?? undefined
-                            }
-                            coverImage={m.coverImage?.extraLarge}
-                        />
-                    </div>
-                );
-            })}
+                            <Card
+                                onMouseEnter={(e) => handleMouseEnter(e, m.id)}
+                                onMouseLeave={() => setHoveredId(null)}
+                                id={m.id}
+                                title={
+                                    m.title?.romaji ??
+                                    m.title?.english ??
+                                    undefined
+                                }
+                                coverImage={m.coverImage?.extraLarge}
+                            />
+                        </div>
+                    );
+                })}
 
-            {isFetchingNextPage && (
-                <div className="card-section-grid">
-                    <FilteredCardSectionSkeleton length={6} />
-                </div>
-            )}
-
-            <div ref={sentinelRef} className="h-10" />
-        </div>
+                {isFetchingNextPage && (
+                    <FilteredCardSectionSkeleton length={10} />
+                )}
+                <div ref={sentinelRef} className="h-10" />
+            </div>
+        </>
     );
 };
 
