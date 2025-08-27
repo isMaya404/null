@@ -1,10 +1,6 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { AnilistMediaQuery } from "@/lib/anilist/gql/graphql";
 import { cn } from "@/lib/utils/cn";
-
-type Media = NonNullable<
-    NonNullable<NonNullable<AnilistMediaQuery["Page"]>["media"]>[number]
->;
+import type { Media } from "@/types/media";
 
 // NOTE:
 // Dynamic airing date/time value that needs to displayed inside the popup
