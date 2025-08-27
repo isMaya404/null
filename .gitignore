@@ -28,3 +28,4 @@ dist-ssr
 repomix*
 tmp.txt
 src/_ignored/
+src/lib/anilist/gql/
