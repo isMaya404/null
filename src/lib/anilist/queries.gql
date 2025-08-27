@@ -51,6 +51,7 @@ query AnilistMedia (
             nextAiringEpisode {
                 airingAt,
                 timeUntilAiring
+                episode
             }
         }
         pageInfo {
