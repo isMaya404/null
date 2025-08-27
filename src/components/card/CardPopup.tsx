@@ -1,18 +1,24 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { MediaQuery } from "@/lib/anilist/gql/graphql";
+import { AnilistMediaQuery } from "@/lib/anilist/gql/graphql";
 import { cn } from "@/lib/utils/cn";
 
 type Media = NonNullable<
-    NonNullable<NonNullable<MediaQuery["Page"]>["media"]>[number]
+    NonNullable<NonNullable<AnilistMediaQuery["Page"]>["media"]>[number]
 >;
 
 // NOTE:
-// Dynamic airing date/time value that needs to displayed inside the popup depending if the anime is currently airing or has already aired.
-// if aired within multiple years then, start year - end year (e.g 2011 - 2014)
-// if aired in a single season then, seeason year (e.g Fall 2022)
-// if will be aired in a month or more then, a normal date maybe? (e.g Airing on August 2, 2025)
-// hours left and what ep is it (e.g Ep 5 is airing in 2 hours)
-// days left and what ep is it (e.g Ep 9 is airing in 5 days)
+// Dynamic airing date/time value that needs to displayed inside the popup
+// depending if the anime is currently airing or has already aired or upcoming.
+
+// if already aired:
+// when an anime aired within multiple years then, start year - end year (e.g 2011 - 2014)
+// aired in a single season then, season year (e.g Fall 2022)
+
+// if currently airing this season:
+// days left until and what ep is it (e.g Ep 9 is airing in 5 days)
+// hours left until and what ep is it (e.g Ep 5 is airing in 2 hours)
+
+// if will be aired then, season year (e.g Fall 2022)
 
 const CardPopup = ({
     media,
