@@ -3,19 +3,17 @@ import AniListMediaData from "@/lib/anilist/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useState } from "react";
-import { cn } from "@/lib/utils/cn";
-// import CardPopup from "@/components/CardPopup";
+import CardPopup from "./CardPopup";
 
 import type {
-    MediaQuery,
-    MediaQueryVariables,
+    AnilistMediaQuery,
+    AnilistMediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
-import CardPopup from "./CardPopup";
 
 type DefaultCardsSectionProps = {
     qk: string;
     sectionTitle?: string;
-    props: MediaQueryVariables;
+    props: AnilistMediaQueryVariables;
 };
 
 const DefaultCardsSection = ({
@@ -23,7 +21,7 @@ const DefaultCardsSection = ({
     sectionTitle,
     props,
 }: DefaultCardsSectionProps) => {
-    const { data, error, isFetching } = useSuspenseQuery<MediaQuery>({
+    const { data, error, isFetching } = useSuspenseQuery<AnilistMediaQuery>({
         queryKey: [qk],
         queryFn: () => AniListMediaData(props),
         meta: { persist: true },
