@@ -6,13 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import CardPopup from "./CardPopup";
 
 import type {
-    MediaQuery,
-    MediaQueryVariables,
+    AnilistMediaQuery,
+    AnilistMediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
 import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
 
 type FilteredCardsSectionProps = {
-    props: MediaQueryVariables;
+    props: AnilistMediaQueryVariables;
 };
 
 const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
@@ -23,8 +23,8 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
         error,
         isFetchingNextPage,
         isFetching,
-    } = useSuspenseInfiniteQuery<MediaQuery>({
-        queryKey: ["search-media"],
+    } = useSuspenseInfiniteQuery<AnilistMediaQuery>({
+        queryKey: ["search-media", props],
         queryFn: ({ pageParam }) =>
             AniListMediaData({
                 ...props,
@@ -87,31 +87,23 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     return (
         <>
             <div className="mx-auto max-w-[1400px] container-px mb-[65px] card-section-grid">
-                {media.map((m) => {
-                    const numberOfDaysLeft = Math.floor(
-                        (m?.nextAiringEpisode?.timeUntilAiring ?? 0) / 86400,
-                    );
+                {media.map((m) => (
+                    <div key={m.id} className="w-full relative">
+                        {isLgAndUp && hoveredId === m.id && (
+                            <CardPopup media={m} popupSide={popupSide} />
+                        )}
 
-                    return (
-                        <div key={m.id} className="w-full relative">
-                            {isLgAndUp && hoveredId === m.id && (
-                                <CardPopup media={m} popupSide={popupSide} />
-                            )}
-
-                            <Card
-                                onMouseEnter={(e) => handleMouseEnter(e, m.id)}
-                                onMouseLeave={() => setHoveredId(null)}
-                                id={m.id}
-                                title={
-                                    m.title?.romaji ??
-                                    m.title?.english ??
-                                    undefined
-                                }
-                                coverImage={m.coverImage?.extraLarge}
-                            />
-                        </div>
-                    );
-                })}
+                        <Card
+                            onMouseEnter={(e) => handleMouseEnter(e, m.id)}
+                            onMouseLeave={() => setHoveredId(null)}
+                            id={m.id}
+                            title={
+                                m.title?.romaji ?? m.title?.english ?? undefined
+                            }
+                            coverImage={m.coverImage?.extraLarge}
+                        />
+                    </div>
+                ))}
 
                 {isFetchingNextPage && (
                     <FilteredCardSectionSkeleton length={10} />
