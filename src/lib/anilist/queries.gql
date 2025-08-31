@@ -53,6 +53,16 @@ query AnilistMedia (
                 timeUntilAiring
                 episode
             }
+          startDate {
+            year
+            month
+            day
+          }
+          endDate {
+            day
+            month
+            year
+          }
         }
         pageInfo {
             total
