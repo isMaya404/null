@@ -40,18 +40,22 @@ const DefaultCardsSection = ({
     if (media.length === 0)
         return <div className="text-center text-20-bold">No Results</div>;
 
+    const isMd = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
+    const isLg = useMediaQuery("(min-width: 1024px) and (max-width: 1279px)");
+    media = isMd ? media.slice(0, 4) : isLg ? media.slice(0, 5) : media;
+
+    const mediaQueryPopupConstraint = useMediaQuery(
+        "(min-width: 768px) and (max-width: 1622px)",
+    );
     const handleMouseEnter = (e: React.MouseEvent<HTMLElement>, id: number) => {
         setHoveredId(id);
 
         const rect = e.currentTarget.getBoundingClientRect();
         const cardCenterX = rect.left + rect.width / 2;
-        const screenFiftyFivePercentX = 0.55 * window.innerWidth;
-        setPopupSide(cardCenterX <= screenFiftyFivePercentX ? "right" : "left");
+        const screenXPercent =
+            (mediaQueryPopupConstraint ? 0.55 : 0.8) * window.innerWidth;
+        setPopupSide(cardCenterX <= screenXPercent ? "right" : "left");
     };
-
-    const isMd = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
-    const isLg = useMediaQuery("(min-width: 1024px) and (max-width: 1279px)");
-    media = isMd ? media.slice(0, 4) : isLg ? media.slice(0, 5) : media;
 
     return (
         <div className="mx-auto max-w-[1400px] container-px mb-[60px]">

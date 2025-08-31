@@ -49,13 +49,18 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
     const isLgAndUp = useMediaQuery("(min-width: 1024px)");
     const [popupSide, setPopupSide] = useState<"left" | "right">("right");
 
+    const mediaQueryPopupConstraint = useMediaQuery(
+        "(min-width: 768px) and (max-width: 1622px)",
+    );
     const handleMouseEnter = (e: React.MouseEvent<HTMLElement>, id: number) => {
         setHoveredId(id);
 
         const rect = e.currentTarget.getBoundingClientRect();
         const cardCenterX = rect.left + rect.width / 2;
-        const screenFiftyFivePercentX = 0.55 * window.innerWidth;
-        setPopupSide(cardCenterX <= screenFiftyFivePercentX ? "right" : "left");
+        const screenXPercent = mediaQueryPopupConstraint
+            ? 0.55
+            : 0.8 * window.innerWidth;
+        setPopupSide(cardCenterX <= screenXPercent ? "right" : "left");
     };
 
     const sentinelRef = useRef<HTMLDivElement | null>(null);
