@@ -31,6 +31,7 @@ function Root() {
     const { reset } = useQueryErrorResetBoundary();
 
     return (
+        // TODO: use zustand and create a global store called settings and included theme in there along with other settings
         <ThemeProvider>
             <TanstackQueryProvider>
                 <ErrorBoundary fallbackRender={FallbackRender} onReset={reset}>
