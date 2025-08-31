@@ -1,5 +1,13 @@
 import { MediaSeason } from "../anilist/gql/graphql";
 
+export const getSeasonFromMonthNumber = (monthNumber: number): MediaSeason => {
+    if (monthNumber < 3) return MediaSeason.Winter;
+    if (monthNumber < 6) return MediaSeason.Spring;
+    if (monthNumber < 9) return MediaSeason.Summer;
+
+    return MediaSeason.Fall;
+};
+
 export const getCurrentSeason = (): MediaSeason => {
     const month = new Date().getMonth(); // 0 = Jan
 
