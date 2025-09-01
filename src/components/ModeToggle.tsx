@@ -1,29 +1,13 @@
 import { Sun, Moon, Computer } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useTheme } from "@/contexts/theme";
 
 type Theme = "light" | "dark" | "system";
 
 export default function ModeToggle() {
-    const [selectedTheme, setSelectedTheme] = useState("system");
-
-    useEffect(() => {
-        const stored = localStorage.getItem("theme") as Theme | null;
-        setSelectedTheme(stored ?? "system");
-    }, []);
+    const { theme, setTheme } = useTheme();
 
     const handleChange = (mode: Theme) => {
-        setSelectedTheme(mode);
-        localStorage.setItem("theme", mode);
-
-        if (mode === "system") {
-            const prefersDark = window.matchMedia(
-                "(prefers-color-scheme: dark)",
-            );
-            const preferredTheme = prefersDark.matches ? "dark" : "light";
-            document.documentElement.setAttribute("data-theme", preferredTheme);
-        } else {
-            document.documentElement.setAttribute("data-theme", mode);
-        }
+        setTheme(mode);
     };
 
     return (
@@ -35,7 +19,7 @@ export default function ModeToggle() {
                     <label
                         key={mode}
                         className={`cursor-pointer rounded-full p-1 border transition-colors duration-200 ${
-                            selectedTheme === mode
+                            theme === mode
                                 ? "border-ring"
                                 : "border-transparent"
                         }`}
@@ -44,7 +28,7 @@ export default function ModeToggle() {
                             type="radio"
                             name="theme"
                             value={mode}
-                            checked={selectedTheme === mode}
+                            checked={theme === mode}
                             onChange={() => handleChange(mode)}
                             className="hidden"
                         />

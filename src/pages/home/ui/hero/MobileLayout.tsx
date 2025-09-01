@@ -1,5 +1,5 @@
 import { useIsMobile } from "@/hooks/useMediaQuery.ts";
-import useIsDarkTheme from "@/hooks/useIsDarkTheme";
+import { useTheme } from "@/contexts/theme";
 import { Button } from "@/lib/ui/shadcn/button";
 import BookmarkBtn from "./sub/BookmarkBtn";
 import PrevNext from "./sub/PrevNext";
@@ -26,7 +26,7 @@ const MobileLayout = ({
     genres,
     title,
 }: MobileProps) => {
-    const isDarkTheme = useIsDarkTheme();
+    const { isDark } = useTheme();
     const isMobile = useIsMobile();
 
     if (!isMobile) return null;
@@ -73,8 +73,8 @@ const MobileLayout = ({
                     next={next}
                     index={index}
                     totalIndex={mediaLength}
-                    // INFO: adjust pos on mobile light theme for visibility
-                    className={cn(isMobile && !isDarkTheme && "mb-6")}
+                    // INFO: adjust margin on mobile light theme for visibility
+                    className={cn(isMobile && !isDark && "mb-6")}
                 />
             </div>
         </div>

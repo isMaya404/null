@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Skeleton } from "@/lib/ui/shadcn/skeleton";
 import { cn } from "@/lib/utils/cn";
-import useIsDarkTheme from "@/hooks/useIsDarkTheme";
+import { useTheme } from "@/contexts/theme";
 
 export type CardProps = {
     id: number;
@@ -28,7 +28,7 @@ const Card = ({
 }: CardProps) => {
     const [loaded, setLoaded] = useState(false);
     const [imgError, setImgError] = useState(false);
-    const isDark = useIsDarkTheme();
+    const { isDark } = useTheme();
     const fallBackImg = isDark ? "/no-image-dark.png" : "/no-image-light.png";
 
     return (

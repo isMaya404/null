@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import Footer from "../components/Footer";
-import { ThemeProvider } from "../contexts/Theme";
+import { ThemeProvider } from "@/contexts/theme";
 import TanstackQueryProvider from "../contexts/TanstackQuery";
 import { ErrorBoundary } from "react-error-boundary";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
