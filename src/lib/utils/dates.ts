@@ -1,19 +1,19 @@
 import { MediaSeason } from "../anilist/gql/graphql";
 
 export const getSeasonFromMonthNumber = (monthNumber: number): MediaSeason => {
-    if (monthNumber < 3) return MediaSeason.Winter;
-    if (monthNumber < 6) return MediaSeason.Spring;
-    if (monthNumber < 9) return MediaSeason.Summer;
+    if (monthNumber < 4) return MediaSeason.Winter;
+    if (monthNumber < 7) return MediaSeason.Spring;
+    if (monthNumber < 10) return MediaSeason.Summer;
 
     return MediaSeason.Fall;
 };
 
 export const getCurrentSeason = (): MediaSeason => {
-    const month = new Date().getMonth(); // 0 = Jan
+    const month = new Date().getMonth() + 1;
 
-    if (month < 3) return MediaSeason.Winter;
-    if (month < 6) return MediaSeason.Spring;
-    if (month < 9) return MediaSeason.Summer;
+    if (month < 4) return MediaSeason.Winter;
+    if (month < 7) return MediaSeason.Spring;
+    if (month < 10) return MediaSeason.Summer;
 
     return MediaSeason.Fall;
 };
@@ -24,13 +24,12 @@ export const getCurrentSeasonYear = (): string => {
     return getCurrentSeason() + currentYear;
 };
 
-export const getNextSeason = (): { season: MediaSeason; year: number } => {
+export const getNextSeason = (): MediaSeason => {
     const month = new Date().getMonth(); // 0 = Jan
-    const year = new Date().getFullYear();
 
-    if (month < 3) return { season: MediaSeason.Spring, year };
-    if (month < 6) return { season: MediaSeason.Summer, year };
-    if (month < 9) return { season: MediaSeason.Fall, year };
+    if (month < 4) return MediaSeason.Spring;
+    if (month < 7) return MediaSeason.Summer;
+    if (month < 10) return MediaSeason.Fall;
 
-    return { season: MediaSeason.Winter, year: year + 1 };
+    return MediaSeason.Winter;
 };
