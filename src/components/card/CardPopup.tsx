@@ -11,102 +11,10 @@ const CardPopup = ({
     popupSide: "left" | "right";
     className?: string;
 }) => {
-    const timeUntilAiringInSeconds =
-        media?.nextAiringEpisode?.timeUntilAiring ?? null;
-
-    const episode = media?.nextAiringEpisode?.episode ?? null;
-
-    const start = media?.startDate ?? {};
-    const end = media?.endDate ?? {};
-
-    const startYear = start.year;
-    const endYear = end.year;
-    const startMonth = start.month;
-    const endMonth = end.month;
-    // const startDay = start.day ?? null;
-    const endDay = end.day ?? null;
-
-    const SECONDS_IN_A_DAY = 86400;
-    const SECONDS_IN_AN_HOUR = 3600;
-
-    const formatSeasonString = (s: string): string => {
-        return `${s[0]}${s.slice(1).toLowerCase()}`;
-    };
-
-    const getFormattedAiringDateTime = useMemo((): string | undefined => {
-        const date = new Date();
-
-        // Upcoming series
-        const isUpcomingRelease =
-            startMonth != null &&
-            startYear != null &&
-            getSeasonFromMonthNumber(startMonth - 1) !== getCurrentSeason() &&
-            startMonth - 1 > date.getMonth() &&
-            (startYear === date.getFullYear() ||
-                startYear > date.getFullYear());
-        if (isUpcomingRelease) {
-            return `${formatSeasonString(getSeasonFromMonthNumber(startMonth - 1))} ${startYear}`;
-        }
-
-        // Countdown of currently airing series in current season
-        // Or long running series that's been airing for a long time but is still unfinished,
-        // as of 2025 Aug 31, an example would be One Piece
-        const isCurrentSeasonRelease =
-            startMonth != null &&
-            getSeasonFromMonthNumber(startMonth - 1) === getCurrentSeason() &&
-            startYear === date.getFullYear();
-
-        const hasEndDate =
-            endYear != null || endMonth != null || endDay != null;
-        const longRunningSeries = !hasEndDate;
-
-        if (
-            timeUntilAiringInSeconds != null &&
-            (isCurrentSeasonRelease || longRunningSeries)
-        ) {
-            if (timeUntilAiringInSeconds >= SECONDS_IN_A_DAY) {
-                const days = Math.floor(
-                    timeUntilAiringInSeconds / SECONDS_IN_A_DAY,
-                );
-                // format example: Ep 7 airing in 8 days
-                return `Ep ${episode} airing in ${days} days`;
-            }
-            const hours = Math.floor(
-                timeUntilAiringInSeconds / SECONDS_IN_AN_HOUR,
-            );
-
-            // format example: Ep 9 airing in 4 hours
-            return `Ep ${episode} airing in ${hours} hours`;
-        }
-
-        // Finished series
-        if (startYear && endYear && startMonth && endMonth) {
-            const diffYears = endYear - startYear;
-            const diffMonths = endMonth - startMonth;
-
-            // media aired within multiple years
-            // format example: 2011 - 2014
-            if (diffYears > 1) return `${startYear} - ${endYear}`;
-
-            // media aired within multiple months
-            // format example: Winter - Spring 2005
-            if (diffMonths > 3 && startYear === endYear)
-                return `${formatSeasonString(getSeasonFromMonthNumber(startMonth - 1))} - ${formatSeasonString(getSeasonFromMonthNumber(endMonth - 1))} ${startYear}`;
-
-            // media aired within a single season (most anime air like this)
-            // format example: Fall 2025
-            if (diffMonths < 3 && startYear === endYear) {
-                return `${formatSeasonString(getSeasonFromMonthNumber(startMonth - 1))} ${startYear}`;
-            }
-        }
-
-        // fallback
-        if (startYear && startMonth) {
-            return `${formatSeasonString(getSeasonFromMonthNumber(startMonth - 1))} ${startYear}`;
-        }
-
-        return undefined;
-    }, [timeUntilAiringInSeconds, startYear, startMonth, endYear, endMonth]);
+    const getFormattedAiringDateTime = useMemo(
+        () => formatAiringDateTime(media),
+        [media],
+    );
 
     return (
         <div
@@ -142,5 +50,98 @@ const CardPopup = ({
         </div>
     );
 };
+
+export function formatAiringDateTime(
+    media: Media,
+    date: Date = new Date(),
+): string | undefined {
+    const timeUntilAiringInSeconds =
+        media?.nextAiringEpisode?.timeUntilAiring ?? null;
+
+    const episode = media?.nextAiringEpisode?.episode ?? null;
+
+    const start = media?.startDate ?? {};
+    const end = media?.endDate ?? {};
+
+    const startYear = start.year;
+    const endYear = end.year;
+    const startMonth = start.month;
+    const endMonth = end.month;
+    // const startDay = start.day ?? null;
+    const endDay = end.day ?? null;
+
+    const SECONDS_IN_A_DAY = 86400;
+    const SECONDS_IN_AN_HOUR = 3600;
+
+    const formatSeasonString = (s: string): string => {
+        return `${s[0]}${s.slice(1).toLowerCase()}`;
+    };
+    // Upcoming series
+    const isUpcomingRelease =
+        startYear != null &&
+        startMonth != null &&
+        (startYear > date.getFullYear() ||
+            (startYear === date.getFullYear() &&
+                startMonth > date.getMonth() + 1));
+    if (isUpcomingRelease) {
+        return `${formatSeasonString(getSeasonFromMonthNumber(startMonth))} ${startYear}`;
+    }
+
+    // Countdown of currently airing series in current season
+    // Or long running series that's been airing for a long time but is still unfinished,
+    // as of 2025 Aug 31, an example would be One Piece
+    const isCurrentSeasonRelease =
+        startMonth != null &&
+        getSeasonFromMonthNumber(startMonth) === getCurrentSeason() &&
+        startYear === date.getFullYear();
+
+    const hasEndDate = endYear != null || endMonth != null || endDay != null;
+    const longRunningSeries = !hasEndDate;
+
+    if (
+        timeUntilAiringInSeconds != null &&
+        (isCurrentSeasonRelease || longRunningSeries)
+    ) {
+        if (timeUntilAiringInSeconds >= SECONDS_IN_A_DAY) {
+            const days = Math.floor(
+                timeUntilAiringInSeconds / SECONDS_IN_A_DAY,
+            );
+            // format example: Ep 7 airing in 8 days
+            return `Ep ${episode} airing in ${days} days`;
+        }
+        const hours = Math.floor(timeUntilAiringInSeconds / SECONDS_IN_AN_HOUR);
+
+        // format example: Ep 9 airing in 4 hours
+        return `Ep ${episode} airing in ${hours} hours`;
+    }
+
+    // Finished series
+    if (startYear && endYear && startMonth && endMonth) {
+        const diffYears = endYear - startYear;
+        const diffMonths = endMonth - startMonth;
+
+        // media aired within multiple years
+        // format example: 2011 - 2014
+        if (diffYears > 1) return `${startYear} - ${endYear}`;
+
+        // media aired within multiple months
+        // format example: Winter - Spring 2005
+        if (diffMonths > 4 && startYear === endYear)
+            return `${formatSeasonString(getSeasonFromMonthNumber(startMonth))} - ${formatSeasonString(getSeasonFromMonthNumber(endMonth))} ${startYear}`;
+
+        // media aired within a single season (most anime air like this)
+        // format example: Fall 2025
+        if (diffMonths < 4 && startYear === endYear) {
+            return `${formatSeasonString(getSeasonFromMonthNumber(startMonth))} ${startYear}`;
+        }
+    }
+
+    // fallback
+    if (startYear && startMonth) {
+        return `${formatSeasonString(getSeasonFromMonthNumber(startMonth))} ${startYear}`;
+    }
+
+    return undefined;
+}
 
 export default CardPopup;

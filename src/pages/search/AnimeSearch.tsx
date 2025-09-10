@@ -21,8 +21,6 @@ const AnimeSearch = () => {
         console.log({ ...filters });
     }, [filters]);
 
-    const nextSeason = getNextSeason();
-
     return (
         <>
             {!hasFiltersApplied ? (
@@ -66,8 +64,8 @@ const AnimeSearch = () => {
                                 props={{
                                     perPage: 6,
                                     type: MediaType.Anime,
-                                    season: nextSeason.season,
-                                    seasonYear: nextSeason.year,
+                                    season: getNextSeason(),
+                                    seasonYear: new Date().getFullYear(),
                                     sort: [MediaSort.PopularityDesc],
                                 }}
                             />

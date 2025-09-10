@@ -9,8 +9,6 @@ import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSection
 import PersistSuspense from "@/components/PersistSuspense";
 
 const Home = () => {
-    const nextSeason = getNextSeason();
-
     return (
         <div className="flex-1">
             <PersistSuspense
@@ -58,8 +56,8 @@ const Home = () => {
                     props={{
                         perPage: 6,
                         type: MediaType.Anime,
-                        season: nextSeason.season,
-                        seasonYear: nextSeason.year,
+                        season: getNextSeason(),
+                        seasonYear: new Date().getFullYear(),
                         sort: [MediaSort.PopularityDesc],
                     }}
                 />
