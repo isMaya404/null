@@ -11,11 +11,11 @@ import type {
 } from "@/lib/anilist/gql/graphql";
 import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
 
-type FilteredCardsSectionProps = {
+const FilteredCardsSection = ({
+    props,
+}: {
     props: AnilistMediaQueryVariables;
-};
-
-const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
+}) => {
     const {
         data,
         fetchNextPage,
@@ -44,6 +44,11 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
         data?.pages
             .flatMap((page) => page.Page?.media ?? [])
             .filter((m): m is NonNullable<typeof m> => m != null) || [];
+
+    if (error) throw error;
+    if (media.length === 0 && !isFetching && !isFetchingNextPage) {
+        return <div className="text-center text-20-bold">No Results</div>;
+    }
 
     const [hoveredId, setHoveredId] = useState<number | null>(null);
     const isLgAndUp = useMediaQuery("(min-width: 1024px)");
@@ -83,11 +88,6 @@ const FilteredCardsSection = ({ props }: FilteredCardsSectionProps) => {
         observer.observe(sentinelRef.current);
         return () => observer.disconnect();
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-    if (error) throw error;
-    if (media.length === 0 && !isFetching && !isFetchingNextPage) {
-        return <div className="text-center text-20-bold">No Results</div>;
-    }
 
     return (
         <>

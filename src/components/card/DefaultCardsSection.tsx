@@ -32,13 +32,13 @@ const DefaultCardsSection = ({
             (m): m is NonNullable<typeof m> => m !== null,
         ) ?? [];
 
-    const [hoveredId, setHoveredId] = useState<number | null>(null);
-    const isLgAndUp = useMediaQuery("(min-width: 1024px)");
-    const [popupSide, setPopupSide] = useState<"left" | "right">("right");
-
     if (error && !isFetching) throw error;
     if (media.length === 0)
         return <div className="text-center text-20-bold">No Results</div>;
+
+    const [hoveredId, setHoveredId] = useState<number | null>(null);
+    const isLgAndUp = useMediaQuery("(min-width: 1024px)");
+    const [popupSide, setPopupSide] = useState<"left" | "right">("right");
 
     const isMd = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
     const isLg = useMediaQuery("(min-width: 1024px) and (max-width: 1279px)");

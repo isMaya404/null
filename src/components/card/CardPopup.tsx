@@ -1,13 +1,12 @@
 import { cn } from "@/lib/utils/cn";
 import { getCurrentSeason, getSeasonFromMonthNumber } from "@/lib/utils/dates";
-import type { Media } from "@/types/media";
 import { useMemo } from "react";
 
 const CardPopup = ({
     media,
     popupSide,
 }: {
-    media: Media;
+    media: NonNullableMedia;
     popupSide: "left" | "right";
     className?: string;
 }) => {
@@ -52,7 +51,7 @@ const CardPopup = ({
 };
 
 export function formatAiringDateTime(
-    media: Media,
+    media: NonNullableMedia,
     date: Date = new Date(),
 ): string | undefined {
     const timeUntilAiringInSeconds =
