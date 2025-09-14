@@ -27,10 +27,10 @@ const DefaultCardsSection = ({
         meta: { persist: true },
     });
 
-    let media =
-        (data?.Page?.media ?? []).filter(
-            (m): m is NonNullable<typeof m> => m !== null,
-        ) ?? [];
+    let media = useMemo(
+        () => (data?.Page?.media ?? []).filter((m) => m !== null),
+        [data],
+    );
 
     if (error && !isFetching) throw error;
     if (media.length === 0)
