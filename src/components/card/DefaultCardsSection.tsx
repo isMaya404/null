@@ -24,7 +24,8 @@ const DefaultCardsSection = ({
     const { data, error, isFetching } = useSuspenseQuery<AnilistMediaQuery>({
         queryKey: [qk],
         queryFn: () => AniListMediaData(props),
-        meta: { persist: true },
+        meta: { persist: false },
+        staleTime: 0,
     });
 
     let media = useMemo(

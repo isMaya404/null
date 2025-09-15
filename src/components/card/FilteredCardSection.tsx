@@ -38,6 +38,7 @@ const FilteredCardsSection = ({
             return info.currentPage + 1;
         },
         meta: { persist: false },
+        staleTime: 0,
     });
 
     const media =
