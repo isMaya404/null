@@ -29,7 +29,11 @@ const CardPopup = ({
                 </div>{" "}
                 <div className="text-12-normal">
                     {media.format === "TV" ? "TV Show" : media.format}
-                    {media.episodes ? ` · ${media.episodes} episodes` : ""}
+                    {media.episodes
+                        ? media.episodes === 1
+                            ? ` · ${media.episodes} episode`
+                            : ` · ${media.episodes} episodes`
+                        : ""}
                 </div>
             </div>
 
