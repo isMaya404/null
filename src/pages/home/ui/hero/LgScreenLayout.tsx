@@ -25,7 +25,7 @@ const LgScreenLayout = ({
     next,
 }: LgScreenProps) => {
     const isBookmarked = useHeroStore((s) =>
-        s.isBookmarked(`bookmark-${index}`)
+        s.isBookmarked(`bookmark-${index}`),
     );
     const toggleBookmark = useHeroStore((s) => s.toggleBookmark);
 
@@ -49,18 +49,18 @@ const LgScreenLayout = ({
             >
                 <div className="text-light">
                     <div
-                        className={`animate-fade-scale-in ${titleSize} font-extrabold select-none`}
+                        className={`hero-text-anim ${titleSize} font-extrabold select-none`}
                     >
                         {title}
                     </div>
 
-                    <div className="select-none animate-fade-scale-in mt-2 font-semibold">
+                    <div className="select-none hero-text-anim mt-2 font-semibold">
                         {tablet ? truncatedGenres : genres.join(", ")}
                     </div>
 
                     {desktop && (
                         <div
-                            className="select-none animate-fade-scale-in description-clamp-3 mt-5 h-15 w-140 text-sm dark:text-zinc-200"
+                            className="select-none hero-text-anim description-clamp-3 mt-5 h-15 w-140 text-sm dark:text-zinc-200"
                             // rm br tags because anilist returns too
                             // many br for this specific layout usecase
                             dangerouslySetInnerHTML={{

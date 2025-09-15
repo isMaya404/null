@@ -34,10 +34,21 @@
     }
 }
 
-@keyframes fade-scale-in {
+@keyframes fade-scale-in-hero-text {
     0% {
         opacity: 0;
         transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fade-scale-in-card-popup {
+    0% {
+        opacity: 0;
+        transform: scale(0.92);
     }
     100% {
         opacity: 1;
@@ -73,11 +84,11 @@
         animation: slide-out-left 0.4s forwards;
     }
 
-    .animate-fade-scale-in {
-        animation: fade-scale-in 0.4s ease-out forwards;
+    .hero-text-anim {
+        animation: fade-scale-in-hero-text 0.4s ease-out forwards;
     }
 
     .card-popup-anim {
-        animation: fade-scale-in 0.2s ease-out;
+        animation: fade-scale-in-card-popup 0.2s ease-out;
     }
 }

@@ -45,11 +45,11 @@ const MobileLayout = ({
             className="w-full h-30 absolute bottom-[60px] z-90 flex flex-col items-center justify-center gap-4"
         >
             <div className="text-light  w-full text-center">
-                <div className="select-none animate-fade-scale-in mb-1 truncate justify-center gap-1 text-sm font-bold">
+                <div className="select-none hero-text-anim mb-1 truncate justify-center gap-1 text-sm font-bold">
                     {displayGenres}
                 </div>
 
-                <div className="select-none animate-fade-scale-in text-xl font-bold truncate px-2">
+                <div className="select-none hero-text-anim text-xl font-bold truncate px-2">
                     {title}
                 </div>
             </div>

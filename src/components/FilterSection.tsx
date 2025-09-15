@@ -50,7 +50,7 @@ const FilterSection = () => {
                     <input
                         value={search === undefined ? "" : search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="focus:ring-2 focus:ring-ring rounded-md h-full w-full outline-none  pl-9"
+                        className="focus:ring-2 focus:ring-ring focus:outline-none rounded-md h-full w-full pl-9"
                         type="search"
                     />
                     <Search

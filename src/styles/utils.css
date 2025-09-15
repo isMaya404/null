@@ -12,7 +12,7 @@
     }
 
     .b {
-        @apply border border-white dark:border-gray-800;
+        @apply border border-gray-800 dark:border-white;
     }
 
     .bd-r {
@@ -73,6 +73,11 @@
 
     .text-14-normal {
         @apply font-normal text-sm text-dark dark:text-white/80;
+    }
+
+    .text-12-normal {
+        @apply font-normal text-dark dark:text-white/80;
+        font-size: 12px;
     }
 }
 
