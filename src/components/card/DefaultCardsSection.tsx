@@ -2,7 +2,7 @@ import Card from "./Card";
 import AniListMediaData from "@/lib/anilist/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import CardPopup from "./CardPopup";
 
 import type {
@@ -42,7 +42,10 @@ const DefaultCardsSection = ({
 
     const isMd = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
     const isLg = useMediaQuery("(min-width: 1024px) and (max-width: 1279px)");
-    media = isMd ? media.slice(0, 4) : isLg ? media.slice(0, 5) : media;
+    media = useMemo(
+        () => (isMd ? media.slice(0, 4) : isLg ? media.slice(0, 5) : media),
+        [isMd, isLg],
+    );
 
     const mediaQueryPopupConstraint = useMediaQuery(
         "(min-width: 768px) and (max-width: 1622px)",
