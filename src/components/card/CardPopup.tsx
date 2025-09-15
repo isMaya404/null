@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils/cn";
 import { getCurrentSeason, getSeasonFromMonthNumber } from "@/lib/utils/dates";
-import { useMemo } from "react";
+import { JSX } from "react";
 
 const CardPopup = ({
     media,
@@ -10,11 +10,6 @@ const CardPopup = ({
     popupSide: "left" | "right";
     className?: string;
 }) => {
-    const getFormattedAiringDateTime = useMemo(
-        () => formatAiringDateTime(media),
-        [media],
-    );
-
     return (
         <div
             className={cn(
@@ -23,18 +18,23 @@ const CardPopup = ({
             )}
         >
             {/* Card popup contents */}
-            <div className="flex justify-between text-16-medium">
-                {getFormattedAiringDateTime ?? "Unknown airing date"}
-                <div>86%</div>
+            <div className="flex justify-between">
+                {formatAiringDateTime(media) ?? "Unknown airing date"}
+                <div>{media.averageScore ? `${media.averageScore}%` : ""}</div>
             </div>
 
             <div className="flex flex-col gap-2 text-14-normal">
-                <div>CloverWorks</div> <div>TV SHOW - 12 episodes</div>
+                <div className="text-12-normal">
+                    {media.studios?.nodes?.[0]?.name}
+                </div>{" "}
+                <div className="text-12-normal">
+                    {media.format === "TV" ? "TV Show" : media.format}
+                    {media.episodes ? ` · ${media.episodes} episodes` : ""}
+                </div>
             </div>
 
-            <div className="flex gap-2 text-14-normal">
-                <div>foo</div> <div>bar</div>
-                <div>foo</div>
+            <div className="flex gap-2 text-12-normal truncate">
+                {getGenres(media)}
             </div>
 
             {/* Card Popup tail */}
@@ -49,6 +49,21 @@ const CardPopup = ({
         </div>
     );
 };
+
+function getGenres(media: NonNullableMedia) {
+    return (
+        media.genres?.reduce((acc, g) => {
+            if (acc.length >= 3) return acc;
+            if (g === null) return acc;
+            acc.push(
+                <div key={g} className="border border-ring rounded-xl p-2 py-1">
+                    {g}
+                </div>,
+            );
+            return acc;
+        }, [] as JSX.Element[]) ?? []
+    );
+}
 
 export function formatAiringDateTime(
     media: NonNullableMedia,
