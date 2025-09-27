@@ -25,7 +25,13 @@ const router = createBrowserRouter([
                 Component: Search,
                 children: [
                     // { index: true, Component: AnimeSearch },
-                    { index: true, loader: () => redirect("anime") },
+                    {
+                        index: true,
+                        loader: ({ request }) => {
+                            const url = new URL(request.url);
+                            return redirect(`anime${url.search}`);
+                        },
+                    },
                     { path: "anime", Component: AnimeSearch },
                     { path: "manga", Component: MangaSearch },
                 ],
