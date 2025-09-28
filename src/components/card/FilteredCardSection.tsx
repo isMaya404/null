@@ -1,21 +1,20 @@
 import Card from "./Card";
-import AniListMediaData from "@/lib/anilist/api";
+import { getAniListMediaData } from "@/lib/anilist/api";
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useEffect, useRef, useState } from "react";
 import CardPopup from "./CardPopup";
 
-import type {
+import {
     AnilistMediaQuery,
     AnilistMediaQueryVariables,
+    MediaSort,
+    MediaType,
 } from "@/lib/anilist/gql/graphql";
 import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
+import notNull from "@/lib/utils/notNull";
 
-const FilteredCardsSection = ({
-    props,
-}: {
-    props: AnilistMediaQueryVariables;
-}) => {
+const FilteredCardsSection = (props: AnilistMediaQueryVariables) => {
     const {
         data,
         fetchNextPage,
@@ -26,7 +25,9 @@ const FilteredCardsSection = ({
     } = useSuspenseInfiniteQuery<AnilistMediaQuery>({
         queryKey: ["search-media", props],
         queryFn: ({ pageParam }) =>
-            AniListMediaData({
+            getAniListMediaData({
+                type: MediaType.Anime,
+                sort: MediaSort.PopularityDesc,
                 ...props,
                 page: pageParam as number,
                 perPage: 10,
@@ -37,19 +38,14 @@ const FilteredCardsSection = ({
             if (!info?.hasNextPage || !info.currentPage) return undefined;
             return info.currentPage + 1;
         },
-        meta: { persist: false },
-        staleTime: 0,
+        // meta: { persist: true },
+        // staleTime: 0,
+        // gcTime: 0,
+        // placeholderData: undefined
     });
 
     const media =
-        data?.pages
-            .flatMap((page) => page.Page?.media ?? [])
-            .filter((m): m is NonNullable<typeof m> => m != null) || [];
-
-    if (error) throw error;
-    if (media.length === 0 && !isFetching && !isFetchingNextPage) {
-        return <div className="text-center text-20-bold">No Results</div>;
-    }
+        data?.pages.flatMap((page) => page.Page?.media).filter(notNull) || [];
 
     const [hoveredId, setHoveredId] = useState<number | null>(null);
     const isLgAndUp = useMediaQuery("(min-width: 1024px)");
@@ -89,6 +85,11 @@ const FilteredCardsSection = ({
         observer.observe(sentinelRef.current);
         return () => observer.disconnect();
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+    if (error) throw error;
+    if (media.length === 0 && !isFetching && !isFetchingNextPage) {
+        return <div className="text-center text-20-bold">No Results</div>;
+    }
 
     return (
         <>

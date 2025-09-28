@@ -13,24 +13,24 @@ import DarkOverlay from "./sub/DarkOverlay";
 import MobileLayout from "./MobileLayout";
 import LgScreenLayout from "./LgScreenLayout";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import fetchHomePageData from "@/lib/anilist/api";
+import { getAniListMediaData } from "@/lib/anilist/api";
+import notNull from "@/lib/utils/notNull";
+
 import type {
-    MediaQuery,
-    MediaQueryVariables,
+    AnilistMediaQuery,
+    AnilistMediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
 
 const NEXT_INTERVAL_MS = 10000;
 
-const Hero = (props: MediaQueryVariables) => {
-    const { data, error, isFetching } = useSuspenseQuery<MediaQuery>({
+const Hero = (props: AnilistMediaQueryVariables) => {
+    const { data, error, isFetching } = useSuspenseQuery<AnilistMediaQuery>({
         queryKey: ["hero-data"],
-        queryFn: () => fetchHomePageData(props),
+        queryFn: () => getAniListMediaData(props),
         meta: { persist: true },
     });
 
-    const media = (data?.Page?.media ?? []).filter(
-        (m): m is NonNullable<typeof m> => m !== null
-    );
+    const media = (data?.Page?.media ?? []).filter(notNull);
 
     if (error && !isFetching) throw error;
     if (!media.length)
@@ -103,7 +103,7 @@ const Hero = (props: MediaQueryVariables) => {
 
     const filteredGenres = useMemo(
         () => media[index]?.genres?.filter((g) => typeof g === "string") ?? [],
-        [media[index]]
+        [media[index]],
     );
 
     return (
@@ -127,7 +127,7 @@ const Hero = (props: MediaQueryVariables) => {
                                     isTabletAndUp
                                         ? "right-0 inset-y-0"
                                         : "inset-0",
-                                    "h-full w-full absolute z-10 transition-width ease-in-out duration-300"
+                                    "h-full w-full absolute z-10 transition-width ease-in-out duration-300",
                                 )}
                             >
                                 <img
@@ -152,7 +152,7 @@ const Hero = (props: MediaQueryVariables) => {
                                     direction === "prev" &&
                                     "animate-slide-in-left",
                                 isTabletAndUp ? "right-0 inset-y-0" : "inset-0",
-                                "h-full w-full absolute z-10 transition-width ease-in-out duration-200"
+                                "h-full w-full absolute z-10 transition-width ease-in-out duration-200",
                             )}
                             // onAnimationEnd={() => setPrevIndex(null)}
                         >

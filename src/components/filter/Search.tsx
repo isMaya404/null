@@ -1,14 +1,18 @@
 import { Search as SearchIcon } from "lucide-react";
-import useFilters from "@/hooks/useFilters";
+import { useFilters } from "@/hooks/useFilters";
 import { useEffect, useState } from "react";
 
 const Search = () => {
     const { filters, setFilters } = useFilters();
-    const [search, setSearch] = useState(filters.search ?? "");
+    const [search, setSearch] = useState((filters.search as string) ?? "");
 
+    // debounced search
     useEffect(() => {
         const handler = setTimeout(() => {
-            setFilters({ search: search.trim() ?? undefined });
+            setFilters((prev) => ({
+                ...prev,
+                search: search.trim() ?? undefined,
+            }));
         }, 400);
 
         return () => clearTimeout(handler);

@@ -1,29 +1,45 @@
-import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
-import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
-
 import DefaultCardsSection from "@/components/card/DefaultCardsSection";
 import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSectionSkeleton";
 import FilteredCardsSection from "@/components/card/FilteredCardSection.tsx";
 import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
-
-import useFilters from "@/hooks/useFilters";
-import { Suspense, useEffect } from "react";
+import {
+    AnilistMediaQueryVariables,
+    MediaSort,
+    MediaType,
+} from "@/lib/anilist/gql/graphql";
+import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
+import { useFilters } from "@/hooks/useFilters";
+import { Suspense, useEffect, useMemo } from "react";
 
 const AnimeSearch = () => {
-    const { filters } = useFilters();
-    const hasFiltersApplied = Object.values(filters).some((f) => {
-        if (Array.isArray(f)) return f.length > 0;
-        return Boolean(f);
-    });
+    const { filters, hasFilters } = useFilters();
 
-    useEffect(() => {
-        console.log({ ...filters });
+    // map filters to the correct anilist var args
+    const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
+        const vars: AnilistMediaQueryVariables = {};
+
+        if (filters.search) vars.search = filters.search;
+        if (filters.genres?.length) vars.genre_in = filters.genres;
+        if (filters.tags?.length) vars.tag_in = filters.tags;
+
+        return vars;
     }, [filters]);
+
+    //@tmp for debugging
+    // useEffect(() => {
+    //     console.log("anilist vars: ", anilistVars);
+    // }, [anilistVars]);
+    // useEffect(() => {
+    //     console.log("filters: ", filters);
+    // }, [filters]);
+    // useEffect(() => {
+    //     console.log({ hasFilters });
+    // }, [hasFilters]);
 
     return (
         <>
-            {!hasFiltersApplied ? (
+            {!hasFilters ? (
                 <>
                     <div>
                         <PersistSuspense
@@ -80,13 +96,7 @@ const AnimeSearch = () => {
                         </div>
                     }
                 >
-                    <FilteredCardsSection
-                        props={{
-                            type: MediaType.Anime,
-                            sort: [MediaSort.PopularityDesc],
-                            ...filters,
-                        }}
-                    />
+                    <FilteredCardsSection {...anilistVars} />
                 </Suspense>
             )}
         </>

@@ -6,6 +6,7 @@ query AnilistMedia (
     $type: MediaType,
     $search: String,
     $genre_in: [String],
+    $tag_in: [String],
     $season: MediaSeason,
     $seasonYear: Int,
     $format_in: [MediaFormat],
@@ -17,6 +18,7 @@ query AnilistMedia (
             type: $type
             search: $search
             genre_in: $genre_in
+            tag_in: $tag_in
             season: $season
             seasonYear: $seasonYear
             format_in: $format_in
@@ -71,5 +73,13 @@ query AnilistMedia (
             lastPage
             hasNextPage
         }
+    }
+}
+
+query AnilistGenreAndTagCollection {
+    GenreCollection
+    MediaTagCollection {
+        name
+        isAdult
     }
 }

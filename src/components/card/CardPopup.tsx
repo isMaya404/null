@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils/cn";
 import { getCurrentSeason, getSeasonFromMonthNumber } from "@/lib/utils/dates";
 import { JSX } from "react";
 
+// BUG: fix popus pos bug around 1110 width px
 const CardPopup = ({
     media,
     popupSide,

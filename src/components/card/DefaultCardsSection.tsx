@@ -1,5 +1,5 @@
 import Card from "./Card";
-import AniListMediaData from "@/lib/anilist/api";
+import { getAniListMediaData } from "@/lib/anilist/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useMemo, useState } from "react";
@@ -9,6 +9,7 @@ import type {
     AnilistMediaQuery,
     AnilistMediaQueryVariables,
 } from "@/lib/anilist/gql/graphql";
+import notNull from "@/lib/utils/notNull";
 
 type DefaultCardsSectionProps = {
     qk: string;
@@ -23,15 +24,12 @@ const DefaultCardsSection = ({
 }: DefaultCardsSectionProps) => {
     const { data, error, isFetching } = useSuspenseQuery<AnilistMediaQuery>({
         queryKey: [qk],
-        queryFn: () => AniListMediaData(props),
-        meta: { persist: false },
-        staleTime: 0,
+        queryFn: () => getAniListMediaData(props),
+        // meta: { persist: true },
+        // staleTime: 0,
     });
 
-    let media = useMemo(
-        () => (data?.Page?.media ?? []).filter((m) => m !== null),
-        [data],
-    );
+    let media = useMemo(() => data?.Page?.media?.filter(notNull) || [], [data]);
 
     if (error && !isFetching) throw error;
     if (media.length === 0)
@@ -51,6 +49,7 @@ const DefaultCardsSection = ({
     const mediaQueryPopupConstraint = useMediaQuery(
         "(min-width: 768px) and (max-width: 1622px)",
     );
+    // TODO: make card popup an uncntrolled comp
     const handleMouseEnter = (e: React.MouseEvent<HTMLElement>, id: number) => {
         setHoveredId(id);
 

@@ -2,37 +2,33 @@ import { useCallback, useEffect, useRef } from "react";
 
 export function useDebounce<T extends (...args: any[]) => void>(
     fn: T,
-    delay: number
+    delay: number,
 ): T {
-    // 1) Always call the latest fn (avoid stale closures)
+    // Always call the latest fn (avoid stale closures)
     const fnRef = useRef(fn);
     useEffect(() => {
         fnRef.current = fn;
     }, [fn]);
 
-    // 2) Keep timer id in a ref so it survives renders and is shared by the same debounced fn
-    const timeoutRef = useRef<number | null>(null);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // 3) Stable debounced function identity; only changes if 'delay' changes
+    // Stable debounced function identity
     const debounced = useCallback(
         (...args: Parameters<T>) => {
-            if (timeoutRef.current !== null) {
-                clearTimeout(timeoutRef.current);
-            }
-            timeoutRef.current = window.setTimeout(() => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+            timeoutRef.current = setTimeout(() => {
                 fnRef.current(...args); // use the latest fn
             }, delay);
         },
-        [delay]
+        [delay],
     );
 
-    // 4) Cleanup on unmount to prevent leaks (and stray execution after unmount)
+    // Cleanup on unmount to prevent leaks (and stray execution after unmount)
     useEffect(() => {
         return () => {
-            if (timeoutRef.current !== null) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        }
     }, []);
 
     return debounced as T;

@@ -2,7 +2,7 @@ import { Skeleton } from "@/lib/ui/shadcn/skeleton";
 import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 
-import FilterSection from "@/components/FilterSection";
+import FilterSection from "@/components/filter/FilterSection";
 import Hero from "./ui/hero/Hero";
 import DefaultCardsSection from "@/components/card/DefaultCardsSection";
 import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSectionSkeleton";
