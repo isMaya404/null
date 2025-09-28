@@ -9,7 +9,7 @@ const queryClient = new QueryClient({
         queries: {
             // experimental_prefetchInRender: true,
             staleTime: 1000 * 60 * 60 * 1, // 1h
-            gcTime: 1000 * 60 * 60 * 24, // 24h
+            gcTime: 1000 * 60 * 60 * 1, // 1h
         },
     },
 });
