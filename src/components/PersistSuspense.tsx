@@ -1,9 +1,11 @@
 import { Suspense, type ReactNode } from "react";
 import { useIsRestoring } from "@tanstack/react-query";
 
-// INFO: A workaround for this issue:
+// Workaround for using useSuspenseQuery with CSR and persisted cache (localStorage, db
+// cache, etc.) which doesn't work with React's Suspense.
+
 // https://github.com/TanStack/query/issues/8400
-// When using useSuspenseQuery with CSR and persisted cache
+
 type PersistGateProps = {
     children: ReactNode;
     fallback?: ReactNode;

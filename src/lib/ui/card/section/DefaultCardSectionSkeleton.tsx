@@ -9,7 +9,7 @@ const DefaultCardSectionSkeleton = () => {
     const length = isMD ? 4 : isLG ? 5 : 6;
     const media = Array.from({ length });
     return (
-        // NOTE: mb is higher than 5px than the actual DefaultCardSectionSkeleton mb-60px to match gap/spacing
+        // mb is higher than 5px than the actual DefaultCardSectionSkeleton to match gap/spacing
         <div className="mx-auto max-w-[1400px] container-px mb-[65px]">
             <div className="flex-between flex mb-4">
                 <Skeleton className="h-6 w-30 rounded" />
