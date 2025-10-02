@@ -3,11 +3,7 @@ import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSection
 import FilteredCardsSection from "@/components/card/FilteredCardSection.tsx";
 import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
 import PersistSuspense from "@/components/PersistSuspense";
-import {
-    AnilistMediaQueryVariables,
-    MediaSort,
-    MediaType,
-} from "@/lib/anilist/gql/graphql";
+import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 import { useFilters } from "@/hooks/useFilters";
 import { Suspense, useEffect, useMemo } from "react";
@@ -16,15 +12,15 @@ const AnimeSearch = () => {
     const { filters, hasFilters } = useFilters();
 
     // map filters to the correct anilist var args
-    const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
-        const vars: AnilistMediaQueryVariables = {};
-
-        if (filters.search) vars.search = filters.search;
-        if (filters.genres?.length) vars.genre_in = filters.genres;
-        if (filters.tags?.length) vars.tag_in = filters.tags;
-
-        return vars;
-    }, [filters]);
+    // const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
+    //     const vars: AnilistMediaQueryVariables = {};
+    //
+    //     if (filters.search) vars.search = filters.search;
+    //     if (filters.genres?.length) vars.genre_in = filters.genres;
+    //     if (filters.tags?.length) vars.tag_in = filters.tags;
+    //
+    //     return vars;
+    // }, [filters]);
 
     //@tmp for debugging
     // useEffect(() => {
@@ -96,7 +92,7 @@ const AnimeSearch = () => {
                         </div>
                     }
                 >
-                    <FilteredCardsSection {...anilistVars} />
+                    <FilteredCardsSection {...filters} />
                 </Suspense>
             )}
         </>
