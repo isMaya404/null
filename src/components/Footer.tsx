@@ -4,6 +4,11 @@ function Footer() {
     return (
         <div className="flex flex-col gap-8 justify-center border-t  py-4 container-px">
             <ModeToggle />
+
+            <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50">
+                <ModeToggle />
+            </div>
+
             <div className="text-neutral-500 flex flex-col gap-2">
                 <p className="">Copyright © null</p>
                 <p>
