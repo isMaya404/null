@@ -1,12 +1,21 @@
 import { useSearchParams } from "react-router";
 import { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router";
+import {
+    MediaFormat,
+    MediaSeason,
+    MediaStatus,
+} from "@/lib/anilist/gql/graphql";
 
 export type Filters = {
     // mediaType: string;
     search?: string;
     genres?: string[];
     tags?: string[];
+    year?: number;
+    season?: MediaSeason;
+    format?: MediaFormat[];
+    airingStatus?: MediaStatus;
 };
 
 type ArrayFilterKeys = {

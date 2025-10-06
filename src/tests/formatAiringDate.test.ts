@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach } from "vitest";
 import mockdate from "mockdate";
-import { formatAiringDateTime } from "@/components/card/CardPopup";
+import { formatAiringDateTime } from "@/lib/ui/cards/CardPopup";
 
 afterEach(() => {
     mockdate.reset();

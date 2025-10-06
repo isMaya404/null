@@ -1,8 +1,4 @@
 @layer utilities {
-    .card-section-grid {
-        @apply grid justify-items-center gap-x-6 sm:gap-x-8 lg:gap-x-10 gap-y-10 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6;
-    }
-
     .container-px {
         @apply px-6 sm:px-8;
     }
@@ -11,6 +7,7 @@
         @apply text-gray-500;
     }
 
+    /* for quick border testing- */
     .b {
         @apply border border-gray-800 dark:border-white;
     }
@@ -47,16 +44,12 @@
         @apply font-semibold text-[26px];
     }
 
-    .text-20-semibold {
-        @apply font-semibold text-[20px];
-    }
-
     .text-20-bold {
         @apply font-bold text-[20px];
     }
 
-    .text-20-medium {
-        @apply font-medium text-[20px];
+    .text-20-semibold {
+        @apply font-semibold text-[20px];
     }
 
     .text-18-bold {
@@ -155,27 +148,27 @@
     overflow: hidden;
 }
 
-.text-no-stroke {
-    -webkit-text-stroke-width: 0;
-}
-
-.text-stroke {
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: currentColor;
-}
-
-.text-stroke-2 {
-    -webkit-text-stroke-width: 2px;
-}
-
-.text-stroke-black {
-    -webkit-text-stroke-color: black;
-}
-
-.text-stroke-white {
-    -webkit-text-stroke-color: white;
-}
-
-.text-fill-transparent {
-    -webkit-text-fill-color: transparent;
-}
+/* .text-no-stroke { */
+/*     -webkit-text-stroke-width: 0; */
+/* } */
+/**/
+/* .text-stroke { */
+/*     -webkit-text-stroke-width: 1px; */
+/*     -webkit-text-stroke-color: currentColor; */
+/* } */
+/**/
+/* .text-stroke-2 { */
+/*     -webkit-text-stroke-width: 2px; */
+/* } */
+/**/
+/* .text-stroke-black { */
+/*     -webkit-text-stroke-color: black; */
+/* } */
+/**/
+/* .text-stroke-white { */
+/*     -webkit-text-stroke-color: white; */
+/* } */
+/**/
+/* .text-fill-transparent { */
+/*     -webkit-text-fill-color: transparent; */
+/* } */

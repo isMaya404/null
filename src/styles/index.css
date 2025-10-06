@@ -1,7 +1,10 @@
 @import "tailwindcss";
-@import "./utils.css";
-@import "./animations.css";
 @import "tw-animate-css";
+
+@import "./utils/cards-section.css";
+@import "./utils/filter-dropdown.css";
+@import "./utils/general.css";
+@import "./animations.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
@@ -113,6 +116,9 @@ html {
     /* dark theme and light on light theme */
     --color-prim: var(--prim);
     --color-fg: var(--fg);
+
+    --spacing-dropdown: 12px;
+    --spacing-dropdown-item: 12px;
 }
 
 @theme inline {

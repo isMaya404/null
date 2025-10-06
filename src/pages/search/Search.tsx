@@ -1,4 +1,4 @@
-import FilterSection from "@/components/filter/FilterSection";
+import FilterSection from "@/lib/ui/filter/FilterSection";
 import { Outlet } from "react-router";
 
 const Search = () => {

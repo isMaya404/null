@@ -1,9 +1,14 @@
-import DefaultCardsSection from "@/components/card/DefaultCardsSection";
-import DefaultCardSectionSkeleton from "@/lib/ui/card/section/DefaultCardSectionSkeleton";
-import FilteredCardsSection from "@/components/card/FilteredCardSection.tsx";
-import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
+import DefaultCardsSection from "@/lib/ui/cards/DefaultCardsSection";
+import FilteredCardsSection from "@/lib/ui/cards/FilteredCardSection";
+import DefaultCardSectionSkeleton from "@/lib/ui/skeletons/DefaultCardSectionSkeleton";
+import FilteredCardSectionSkeleton from "@/lib/ui/skeletons/FilteredCardSectionSkeleton";
+
 import PersistSuspense from "@/components/PersistSuspense";
-import { MediaSort, MediaType } from "@/lib/anilist/gql/graphql";
+import {
+    AnilistMediaQueryVariables,
+    MediaSort,
+    MediaType,
+} from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 import { useFilters } from "@/hooks/useFilters";
 import { Suspense, useEffect, useMemo } from "react";
@@ -12,15 +17,18 @@ const AnimeSearch = () => {
     const { filters, hasFilters } = useFilters();
 
     // map filters to the correct anilist var args
-    // const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
-    //     const vars: AnilistMediaQueryVariables = {};
-    //
-    //     if (filters.search) vars.search = filters.search;
-    //     if (filters.genres?.length) vars.genre_in = filters.genres;
-    //     if (filters.tags?.length) vars.tag_in = filters.tags;
-    //
-    //     return vars;
-    // }, [filters]);
+    const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
+        const vars: AnilistMediaQueryVariables = {};
+
+        if (filters.search) vars.search = filters.search;
+        if (filters.genres?.length) vars.genre_in = filters.genres;
+        if (filters.tags?.length) vars.tag_in = filters.tags;
+        if (filters.year) vars.seasonYear = filters.year;
+        if (filters.season) vars.season = filters.season;
+        if (filters.format?.length) vars.format_in = filters.format;
+
+        return vars;
+    }, [filters]);
 
     //@tmp for debugging
     // useEffect(() => {
@@ -92,7 +100,7 @@ const AnimeSearch = () => {
                         </div>
                     }
                 >
-                    <FilteredCardsSection {...filters} />
+                    <FilteredCardsSection {...anilistVars} />
                 </Suspense>
             )}
         </>

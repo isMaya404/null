@@ -23,13 +23,13 @@ const Search = () => {
             <div className="">Search</div>
             <div className="relative border border-ring dark:border-0 dark:bg-sec w-full rounded-sm  h-[40px]">
                 <SearchIcon
-                    className="absolute left-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                     size={16}
                 />
                 <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="focus:ring-2 focus:ring-ring focus:outline-none rounded-md h-full w-full pl-9"
+                    className="focus:ring-2 focus:ring-ring focus:outline-none rounded-md h-full w-full pl-10"
                     type="search"
                 />
             </div>

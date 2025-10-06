@@ -1,4 +1,4 @@
-import CardSkeleton from "../CardSkeleton";
+import CardSkeleton from "./CardSkeleton";
 import React from "react";
 
 const FilteredCardSectionSkeleton = ({ length = 6 }: { length: number }) => {

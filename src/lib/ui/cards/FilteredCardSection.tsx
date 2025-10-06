@@ -11,7 +11,7 @@ import {
     MediaSort,
     MediaType,
 } from "@/lib/anilist/gql/graphql";
-import FilteredCardSectionSkeleton from "@/lib/ui/card/section/FilteredCardSectionSkeleton";
+import FilteredCardSectionSkeleton from "@/lib/ui/skeletons/FilteredCardSectionSkeleton";
 import notNull from "@/lib/utils/notNull";
 
 const FilteredCardsSection = (props: AnilistMediaQueryVariables) => {
@@ -38,10 +38,8 @@ const FilteredCardsSection = (props: AnilistMediaQueryVariables) => {
             if (!info?.hasNextPage || !info.currentPage) return undefined;
             return info.currentPage + 1;
         },
-        // meta: { persist: true },
-        // staleTime: 0,
-        // gcTime: 0,
-        // placeholderData: undefined
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 5,
     });
 
     const media =

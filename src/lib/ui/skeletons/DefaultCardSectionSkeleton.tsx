@@ -1,7 +1,7 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import CardSkeleton from "../CardSkeleton";
+import CardSkeleton from "./CardSkeleton";
 import React from "react";
-import { Skeleton } from "../../shadcn/skeleton";
+import { Skeleton } from "../shadcn/skeleton";
 
 const DefaultCardSectionSkeleton = () => {
     const isMD = useMediaQuery("(min-width: 768px) and (max-width: 1023px)");

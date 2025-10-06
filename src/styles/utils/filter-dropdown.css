@@ -1,0 +1,9 @@
+@layer utilities {
+    .filter-dropdown-trigger-and-content-spacing {
+        @apply p-3;
+    }
+
+    .filter-dropdown-item-spacing {
+        @apply px-4 py-2;
+    }
+}

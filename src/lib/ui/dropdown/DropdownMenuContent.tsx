@@ -1,3 +1,5 @@
+import { motion, AnimatePresence } from "framer-motion";
+
 import React, {
     forwardRef,
     useLayoutEffect,
@@ -6,6 +8,7 @@ import React, {
 } from "react";
 import ReactDOM from "react-dom";
 import { DropdownMenuContext } from "./DropdownMenu";
+import { cn } from "@/lib/utils/cn";
 
 type Side = "top" | "right" | "bottom" | "left";
 type Align = "start" | "center" | "end";
@@ -62,7 +65,6 @@ export const DropdownMenuContent = forwardRef<
 
             const next: React.CSSProperties = {
                 position: "fixed",
-                minWidth: triggerEl.offsetWidth,
                 zIndex: 1000,
             };
 
@@ -157,21 +159,67 @@ export const DropdownMenuContent = forwardRef<
 
     // SSR guard
     if (typeof document === "undefined") return null;
-    if (!open) return null;
 
     return ReactDOM.createPortal(
-        <div
-            ref={setRefs}
-            role="menu"
-            tabIndex={-1}
-            className={className}
-            style={{ ...pos, ...style }}
-            {...rest}
-        >
-            {children}
-        </div>,
+        <AnimatePresence>
+            {open && (
+                <motion.div
+                    key="dropdown"
+                    initial={{ opacity: 0, y: -15, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -15, scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    style={{ ...pos }}
+                >
+                    <div
+                        ref={setRefs}
+                        role="menu"
+                        tabIndex={-1}
+                        data-state={open ? "open" : "closed"}
+                        data-side={side}
+                        className={cn(
+                            "bg-popover text-popover-foreground min-w-[8rem] overflow-x-hidden overflow-y-auto shadow-md rounded-md border p-1",
+                            getDropdownOriginClass(side, align),
+                            className,
+                        )}
+                        style={{ ...style }}
+                        {...rest}
+                    >
+                        {children}
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>,
         document.body,
     );
 });
+
+const dropdownOriginMap: Record<Side, Record<Align, string>> = {
+    bottom: {
+        start: "top-left",
+        center: "top",
+        end: "top-right",
+    },
+    top: {
+        start: "bottom-left",
+        center: "bottom",
+        end: "bottom-right",
+    },
+    left: {
+        start: "right-top",
+        center: "right",
+        end: "right-bottom",
+    },
+    right: {
+        start: "left-top",
+        center: "left",
+        end: "left-bottom",
+    },
+};
+
+function getDropdownOriginClass(side: Side, align: Align) {
+    console.log(`origin-${dropdownOriginMap[side][align]}`);
+    return `origin-${dropdownOriginMap[side][align]}`;
+}
 
 DropdownMenuContent.displayName = "DropdownMenuContent";

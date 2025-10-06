@@ -28,7 +28,7 @@ export function useDebounce<T extends (...args: any[]) => void>(
     useEffect(() => {
         return () => {
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        }
+        };
     }, []);
 
     return debounced as T;
