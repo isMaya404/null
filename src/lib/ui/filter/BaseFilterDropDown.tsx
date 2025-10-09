@@ -19,19 +19,19 @@ import { Skeleton } from "../shadcn/skeleton";
 import { arrFilterSet, useFilters } from "@/stores/useFiltersStore";
 import toggleArrItem from "@/lib/utils/toggleArrItem";
 
-type FilterType = "genres" | "year" | "season" | "format" | "airing-status";
+type FilterLabelType = "genres" | "year" | "season" | "format" | "airingStatus";
 
-const filterLabels: Record<FilterType, string> = {
+const filterLabels: Record<FilterLabelType, string> = {
     genres: "Genres",
     year: "Year",
     season: "Season",
     format: "Format",
-    "airing-status": "Airing Status",
+    airingStatus: "Airing Status",
 };
 
 type BaseFilterDropdownProps = {
     children: ReactNode;
-    dropdownType: FilterType;
+    dropdownType: FilterLabelType;
 };
 
 // Used by all the filter components as base except Search
@@ -202,5 +202,3 @@ const FilterDropdownContentSkeleton = ({
         </div>
     );
 };
-
-export default BaseFilterDropdown;
