@@ -1,15 +1,23 @@
-import React, { ReactNode, useLayoutEffect, useRef, useState } from "react";
-
+import React, {
+    ReactNode,
+    useCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/lib/ui/dropdown";
-
 import { Button } from "@/lib/ui/shadcn/button";
-import { ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import PersistSuspense from "@/components/PersistSuspense";
 import { Skeleton } from "../shadcn/skeleton";
+import { arrFilterSet, useFilters } from "@/stores/useFiltersStore";
+import toggleArrItem from "@/lib/utils/toggleArrItem";
 
 type FilterType = "genres" | "year" | "season" | "format" | "airing-status";
 
@@ -28,7 +36,7 @@ type BaseFilterDropdownProps = {
 
 // Used by all the filter components as base except Search
 
-const BaseFilterDropdown = ({
+export const BaseFilterDropdown = ({
     children,
     dropdownType,
 }: BaseFilterDropdownProps) => {
@@ -103,7 +111,9 @@ const BaseFilterDropdown = ({
                 >
                     <PersistSuspense
                         fallback={
-                            <FilterSkeleton triggerWidth={triggerWidth} />
+                            <FilterDropdownContentSkeleton
+                                triggerWidth={triggerWidth}
+                            />
                         }
                     >
                         {children}
@@ -114,7 +124,69 @@ const BaseFilterDropdown = ({
     );
 };
 
-const FilterSkeleton = ({ triggerWidth }: { triggerWidth: number }) => {
+type FilterDropdownItemProps<K extends keyof Filters> = {
+    filterKey: K;
+    value: string;
+};
+
+// hoist icon
+const CheckIcon = <Check className="text-white !h-3 !w-3" />;
+
+export const FilterDropdownItem = <K extends keyof Filters>({
+    filterKey,
+    value,
+}: FilterDropdownItemProps<K>) => {
+    const { filters, setFilters } = useFilters();
+
+    const isArr = useMemo(
+        () => arrFilterSet.has(filterKey as ArrayFilterKeys),
+        [filterKey],
+    );
+
+    const active = useMemo(() => {
+        if (isArr) {
+            // make a set for O(1) lookup
+            const filterSet = new Set(filters[filterKey]);
+            return filterSet.has(value);
+        }
+
+        return filters[filterKey] === value;
+    }, [filters, filterKey]);
+
+    const handleToggle = useCallback(() => {
+        setFilters((prev) => {
+            const curr = prev[filterKey];
+            const updated = isArr
+                ? toggleArrItem(curr as string[] | undefined, value)
+                : value === curr
+                  ? undefined
+                  : value;
+
+            return { ...prev, [filterKey]: updated };
+        });
+    }, [setFilters, filterKey, value, isArr]);
+
+    return (
+        <DropdownMenuItem
+            className="flex-between filter-dropdown-item-spacing focus:bg-prim"
+            onSelect={handleToggle}
+        >
+            {value}
+            {active && (
+                <div className="flex-center bg-accent rounded-full p-[2px]">
+                    {CheckIcon}
+                </div>
+            )}
+        </DropdownMenuItem>
+    );
+};
+
+// this is placed here and not in skeletons dir so I can access the triggerWidth
+const FilterDropdownContentSkeleton = ({
+    triggerWidth,
+}: {
+    triggerWidth: number;
+}) => {
     return (
         <div
             className={`max-h-[520px] overflow-y-hidden py-[9px] px-1 flex flex-col gap-[18px] w-[${triggerWidth}px]`}
