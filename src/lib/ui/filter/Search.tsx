@@ -1,5 +1,5 @@
+import { useFilters } from "@/stores/useFiltersStore";
 import { Search as SearchIcon } from "lucide-react";
-import { useFilters } from "@/hooks/useFilters";
 import { useEffect, useState } from "react";
 
 const Search = () => {
@@ -11,9 +11,9 @@ const Search = () => {
         const handler = setTimeout(() => {
             setFilters((prev) => ({
                 ...prev,
-                search: search.trim() ?? undefined,
+                search: search.trim() || undefined,
             }));
-        }, 400);
+        }, 300); // + 100 since there's a 100ms debounce for all the filter changes so a 400ms debounce
 
         return () => clearTimeout(handler);
     }, [search]);
