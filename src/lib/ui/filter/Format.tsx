@@ -1,4 +1,4 @@
-import BaseFilterDropdown from "./BaseFilterDropDown";
+import { FilterDropdownItem, BaseFilterDropdown } from "./BaseFilterDropDown";
 import { DropdownMenuItem } from "@/lib/ui/dropdown";
 import { MediaFormat } from "@/lib/anilist/gql/graphql";
 
@@ -19,12 +19,11 @@ const Format = () => {
     return (
         <BaseFilterDropdown dropdownType="format">
             {FORMAT_ITEMS.map(([format, item]) => (
-                <DropdownMenuItem
-                    className="filter-dropdown-item-spacing"
+                <FilterDropdownItem
                     key={format}
-                >
-                    {item}
-                </DropdownMenuItem>
+                    filterKey="format"
+                    value={item}
+                />
             ))}
         </BaseFilterDropdown>
     );

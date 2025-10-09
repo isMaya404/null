@@ -1,30 +1,22 @@
-import BaseFilterDropdown from "./BaseFilterDropDown";
-import { DropdownMenuItem } from "@/lib/ui/dropdown";
-import { JSX, useMemo } from "react";
+import { BaseFilterDropdown, FilterDropdownItem } from "./BaseFilterDropDown";
+import { useMemo } from "react";
 
-const Year = () => {
+export default function Year() {
     const currentYear = new Date().getFullYear();
 
-    const memoizedYearItems = useMemo(() => {
-        const years: JSX.Element[] = [];
-        for (let i = currentYear; i >= 1940; i--) {
-            years.push(
-                <DropdownMenuItem
-                    className="filter-dropdown-item-spacing"
-                    key={i}
-                >
-                    {i}
-                </DropdownMenuItem>,
-            );
-        }
-        return years;
-    }, [currentYear]);
+    const years = useMemo(
+        () =>
+            Array.from({ length: currentYear - 1940 + 1 }, (_, i) =>
+                String(currentYear - i),
+            ),
+        [currentYear],
+    );
 
     return (
         <BaseFilterDropdown dropdownType="year">
-            {memoizedYearItems}
+            {years.map((year) => (
+                <FilterDropdownItem key={year} filterKey="year" value={year} />
+            ))}
         </BaseFilterDropdown>
     );
-};
-
-export default Year;
+}

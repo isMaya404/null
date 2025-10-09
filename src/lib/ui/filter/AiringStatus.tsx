@@ -1,5 +1,4 @@
-import BaseFilterDropdown from "./BaseFilterDropDown";
-import { DropdownMenuItem } from "@/lib/ui/dropdown";
+import { FilterDropdownItem, BaseFilterDropdown } from "./BaseFilterDropDown";
 import { MediaStatus } from "@/lib/anilist/gql/graphql";
 
 const STATUS_ITEMS: [MediaStatus, string][] = [
@@ -12,14 +11,13 @@ const STATUS_ITEMS: [MediaStatus, string][] = [
 
 const AiringStatus = () => {
     return (
-        <BaseFilterDropdown dropdownType="airing-status">
+        <BaseFilterDropdown dropdownType="airingStatus">
             {STATUS_ITEMS.map(([status, items]) => (
-                <DropdownMenuItem
-                    className="filter-dropdown-item-spacing"
+                <FilterDropdownItem
                     key={status}
-                >
-                    {items}
-                </DropdownMenuItem>
+                    filterKey="airingStatus"
+                    value={items}
+                />
             ))}
         </BaseFilterDropdown>
     );

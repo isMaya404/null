@@ -1,12 +1,9 @@
 import { getAniListGenreAndTagData } from "@/lib/anilist/api";
-
 import { DropdownMenuItem } from "@/lib/ui/dropdown";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { AnilistGenreAndTagCollectionQuery } from "@/lib/anilist/gql/graphql";
-import { useFilters } from "@/hooks/useFilters";
-import BaseFilterDropdown from "./BaseFilterDropDown";
+import { BaseFilterDropdown, FilterDropdownItem } from "./BaseFilterDropDown";
 import { useMemo } from "react";
-import toggleArrItem from "@/lib/utils/toggleArrItem";
 
 export default function Genres() {
     return (
@@ -39,7 +36,24 @@ const GenreDropdownItems = () => {
         );
     }, [data.MediaTagCollection]);
 
-    const { setFilters } = useFilters();
+    // const { filters, setFilters } = useFilters();
+
+    // create a set for 0(1) lookup
+    // const genreSet = useMemo(
+    //     () => new Set(filters.genres ?? []),
+    //     [filters.genres],
+    // );
+    // const tagSet = useMemo(() => new Set(filters.tags ?? []), [filters.tags]);
+    //
+    // const handleToggle = useCallback(
+    //     (g: string) => {
+    //         setFilters((prev) => ({
+    //             ...prev,
+    //             genres: toggleArrItem(prev.genres, g),
+    //         }));
+    //     },
+    //     [setFilters],
+    // );
 
     if (error && !isFetching) throw error;
     if (nonNullGenres.length === 0 || nonNullTags.length === 0)
@@ -52,18 +66,7 @@ const GenreDropdownItems = () => {
             </DropdownMenuItem>
 
             {nonNullGenres.map((g) => (
-                <DropdownMenuItem
-                    key={g}
-                    className="filter-dropdown-item-spacing"
-                    onClick={() =>
-                        setFilters((prev) => ({
-                            ...prev,
-                            genres: toggleArrItem(prev.genres, g),
-                        }))
-                    }
-                >
-                    {g}
-                </DropdownMenuItem>
+                <FilterDropdownItem key={g} filterKey="genres" value={g} />
             ))}
 
             <DropdownMenuItem className="text-16-medium" disabled>
@@ -81,3 +84,30 @@ const GenreDropdownItems = () => {
         </>
     );
 };
+
+// hoist icon
+// const CheckIcon = <Check className="text-white !h-3 !w-3" />;
+//
+// const GenreItem = ({
+//     g,
+//     onClick,
+//     active,
+// }: {
+//     g: string;
+//     onClick: () => void;
+//     active: boolean;
+// }) => (
+//     <DropdownMenuItem
+//         className="flex-between filter-dropdown-item-spacing"
+//         onClick={onClick}
+//     >
+//         {g}
+//         {active && (
+//             <div className="flex-center bg-accent rounded-full p-[2px]">
+//                 {/* idk why size prop does not work atp,  */}
+//                 {/* so I'm using rasses for now */}
+//                 {CheckIcon}
+//             </div>
+//         )}
+//     </DropdownMenuItem>
+// );

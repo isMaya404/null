@@ -1,6 +1,5 @@
 import { MediaSeason } from "@/lib/anilist/gql/graphql";
-import BaseFilterDropdown from "./BaseFilterDropDown";
-import { DropdownMenuItem } from "@/lib/ui/dropdown";
+import { BaseFilterDropdown, FilterDropdownItem } from "./BaseFilterDropDown";
 
 const SEASON_ITEMS: [MediaSeason, string][] = [
     [MediaSeason.Winter, "Winter"],
@@ -13,12 +12,11 @@ const Season = () => {
     return (
         <BaseFilterDropdown dropdownType="season">
             {SEASON_ITEMS.map(([season, item]) => (
-                <DropdownMenuItem
-                    className="filter-dropdown-item-spacing"
+                <FilterDropdownItem
                     key={season}
-                >
-                    {item}
-                </DropdownMenuItem>
+                    filterKey="season"
+                    value={item}
+                />
             ))}
         </BaseFilterDropdown>
     );

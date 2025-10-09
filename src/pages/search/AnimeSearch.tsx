@@ -27,7 +27,7 @@ const AnimeSearch = () => {
         if (filters.genres?.length) vars.genre_in = filters.genres;
         if (filters.tags?.length) vars.tag_in = filters.tags;
         if (filters.year) vars.seasonYear = Number(filters.year);
-        if (filters.season) vars.season = filters.season;
+        // if (filters.season) vars.season = filters.season.toUpperCase();
         if (filters.format?.length) vars.format_in = filters.format;
 
         return vars;
