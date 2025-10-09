@@ -21,6 +21,7 @@ export const DropdownMenuItem = forwardRef<
         // setOpen,
         triggerRef,
         items,
+        isKeyboardNav,
     } = ctx;
     const { disabled = false, onSelect, children, className, ...rest } = props;
     const itemRef = useRef<HTMLElement>(null);
@@ -72,7 +73,7 @@ export const DropdownMenuItem = forwardRef<
                 triggerRef.current?.focus();
             }}
             onMouseEnter={() => {
-                if (!disabled) {
+                if (!disabled && !isKeyboardNav) {
                     focusItem(index);
                 }
             }}
