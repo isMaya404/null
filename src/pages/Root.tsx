@@ -6,6 +6,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useQueryErrorResetBoundary } from "@tanstack/react-query";
 import { Button } from "@/lib/ui/shadcn/button";
 import Nav from "@/components/Navbar";
+import { useSyncFiltersWithURL } from "@/hooks/useSyncFiltersWithURL";
 
 const FallbackRender = ({
     error,
@@ -29,6 +30,7 @@ const FallbackRender = ({
 
 function Root() {
     const { reset } = useQueryErrorResetBoundary();
+    useSyncFiltersWithURL();
 
     return (
         // TODO: use zustand and create a global store called settings and included theme in there along with other settings

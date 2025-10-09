@@ -10,25 +10,30 @@ import {
     MediaType,
 } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
-import { useFilters } from "@/hooks/useFilters";
 import { Suspense, useEffect, useMemo } from "react";
+import { useFilters } from "@/stores/useFiltersStore";
+import { useDebouncedValue } from "@/hooks/useDebounce";
 
 const AnimeSearch = () => {
     const { filters, hasFilters } = useFilters();
 
     // map filters to the correct anilist var args
     const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
+        if (!filters) return undefined;
+
         const vars: AnilistMediaQueryVariables = {};
 
         if (filters.search) vars.search = filters.search;
         if (filters.genres?.length) vars.genre_in = filters.genres;
         if (filters.tags?.length) vars.tag_in = filters.tags;
-        if (filters.year) vars.seasonYear = filters.year;
+        if (filters.year) vars.seasonYear = Number(filters.year);
         if (filters.season) vars.season = filters.season;
         if (filters.format?.length) vars.format_in = filters.format;
 
         return vars;
     }, [filters]);
+
+    const debouncedAnilistVars = useDebouncedValue(anilistVars, 100);
 
     //@tmp for debugging
     // useEffect(() => {
@@ -38,12 +43,12 @@ const AnimeSearch = () => {
     //     console.log("filters: ", filters);
     // }, [filters]);
     // useEffect(() => {
-    //     console.log({ hasFilters });
+    //     console.log(hasFilters);
     // }, [hasFilters]);
 
     return (
         <>
-            {!hasFilters ? (
+            {!hasFilters() ? (
                 <>
                     <div>
                         <PersistSuspense
@@ -100,7 +105,7 @@ const AnimeSearch = () => {
                         </div>
                     }
                 >
-                    <FilteredCardsSection {...anilistVars} />
+                    <FilteredCardsSection {...debouncedAnilistVars} />
                 </Suspense>
             )}
         </>
