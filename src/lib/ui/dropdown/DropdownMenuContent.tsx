@@ -5,6 +5,7 @@ import React, {
     useLayoutEffect,
     useState,
     useContext,
+    useCallback,
 } from "react";
 import ReactDOM from "react-dom";
 import { DropdownMenuContext } from "./DropdownMenu";
@@ -157,6 +158,11 @@ export const DropdownMenuContent = forwardRef<
         };
     }, [open, side, align, sideOffset, alignOffset, triggerRef]);
 
+    const getOrigin = useCallback(
+        () => getDropdownOriginClass(side, align),
+        [side, align],
+    );
+
     // SSR guard
     if (typeof document === "undefined") return null;
 
@@ -179,8 +185,8 @@ export const DropdownMenuContent = forwardRef<
                         data-side={side}
                         className={cn(
                             "bg-popover text-popover-foreground min-w-[8rem] overflow-x-hidden overflow-y-auto shadow-md rounded-md border p-1",
-                            getDropdownOriginClass(side, align),
                             className,
+                            getOrigin(),
                         )}
                         style={{ ...style }}
                         {...rest}
@@ -218,7 +224,6 @@ const dropdownOriginMap: Record<Side, Record<Align, string>> = {
 };
 
 function getDropdownOriginClass(side: Side, align: Align) {
-    console.log(`origin-${dropdownOriginMap[side][align]}`);
     return `origin-${dropdownOriginMap[side][align]}`;
 }
 
