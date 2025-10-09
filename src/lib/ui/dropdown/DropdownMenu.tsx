@@ -20,6 +20,7 @@ interface DropdownMenuContextValue {
     focusedIndex: number;
     items: Array<{ ref: React.RefObject<HTMLElement>; disabled?: boolean }>;
     isControlled: boolean;
+    isKeyboardNav: boolean;
 }
 
 export const DropdownMenuContext = createContext<
@@ -79,10 +80,32 @@ export const DropdownMenu: React.FC<{
     const focusItem = (index: number) => {
         setFocusedIndex(index);
         const item = items[index];
-        if (item && item.ref.current && !item.disabled) {
-            item.ref.current.focus();
+        const el = item?.ref.current;
+        if (el && !item.disabled) {
+            el.focus({ preventScroll: true }); // disable default auto-scroll
+            ensureVisible(el); // scroll smoothly only if the item's cut off
         }
     };
+
+    // when the mouse is inside the dropdown content and ensureVisible() fires, it
+    // scrolls the container causing mousemove/mouseover to fire too, stealing
+    // the focus on the curr focused item if the mouse is on a non-disabled
+    // item. this state is used to prevent mouseEnter from firing if true
+    const [isKeyboardNav, setIsKeyboardNav] = useState(false);
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (["ArrowDown", "ArrowUp"].includes(e.key))
+                setIsKeyboardNav(true);
+        };
+        const handleMouseMove = () => setIsKeyboardNav(false);
+
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("mousemove", handleMouseMove);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("mousemove", handleMouseMove);
+        };
+    }, []);
 
     // handle keyboard navigation
     useEffect(() => {
@@ -192,9 +215,24 @@ export const DropdownMenu: React.FC<{
                 focusItem,
                 items,
                 isControlled,
+                isKeyboardNav,
             }}
         >
             {children}
         </DropdownMenuContext.Provider>
     );
+};
+
+const ensureVisible = (el: HTMLElement) => {
+    const parent = el.parentElement;
+    if (!parent) return;
+
+    const parentRect = parent.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+
+    if (elRect.top < parentRect.top) {
+        el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    } else if (elRect.bottom > parentRect.bottom) {
+        el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
 };
