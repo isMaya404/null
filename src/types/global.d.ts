@@ -1,4 +1,9 @@
 import { AnilistMediaQuery } from "@/lib/anilist/gql/graphql";
+import {
+    MediaSeason,
+    MediaFormat,
+    MediaStatus,
+} from "@/lib/anilist/gql/graphql";
 
 declare global {
     type NonNullableMedia = NonNullable<
