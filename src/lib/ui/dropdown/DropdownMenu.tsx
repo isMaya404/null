@@ -122,12 +122,6 @@ export const DropdownMenu: React.FC<{
                     }
                     if (next < items.length) {
                         focusItem(next);
-                    } else {
-                        let wrap = 0;
-                        while (wrap < items.length && items[wrap].disabled) {
-                            wrap++;
-                        }
-                        if (wrap < items.length) focusItem(wrap);
                     }
                     break;
                 }
@@ -139,15 +133,15 @@ export const DropdownMenu: React.FC<{
                     }
                     if (prev >= 0) {
                         focusItem(prev);
-                    } else {
-                        let wrap = items.length - 1;
-                        while (wrap >= 0 && items[wrap].disabled) {
-                            wrap--;
-                        }
-                        if (wrap >= 0) focusItem(wrap);
                     }
                     break;
                 }
+                case "Enter":
+                    const curr = items[focusedIndex];
+                    if (!curr || curr.disabled) return;
+                    e.preventDefault();
+                    curr.ref.current?.click();
+                    break;
                 case "Escape":
                     e.preventDefault();
                     setOpen(false);
