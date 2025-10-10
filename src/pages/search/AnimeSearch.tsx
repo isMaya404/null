@@ -6,20 +6,24 @@ import FilteredCardSectionSkeleton from "@/lib/ui/skeletons/FilteredCardSectionS
 import PersistSuspense from "@/components/PersistSuspense";
 import {
     AnilistMediaQueryVariables,
+    MediaFormat,
+    MediaSeason,
     MediaSort,
+    MediaStatus,
     MediaType,
 } from "@/lib/anilist/gql/graphql";
 import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 import { Suspense, useEffect, useMemo } from "react";
 import { useFilters } from "@/stores/useFiltersStore";
 import { useDebouncedValue } from "@/hooks/useDebounce";
+import hasObjKey from "@/lib/utils/hasObjKey";
 
 const AnimeSearch = () => {
     const { filters, hasFilters } = useFilters();
 
     // map filters to the correct anilist var args
     const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
-        if (!filters) return undefined;
+        if (!hasObjKey(filters)) return undefined;
 
         const vars: AnilistMediaQueryVariables = {};
 
@@ -27,8 +31,19 @@ const AnimeSearch = () => {
         if (filters.genres?.length) vars.genre_in = filters.genres;
         if (filters.tags?.length) vars.tag_in = filters.tags;
         if (filters.year) vars.seasonYear = Number(filters.year);
-        // if (filters.season) vars.season = filters.season.toUpperCase();
-        if (filters.format?.length) vars.format_in = filters.format;
+        if (filters.season) {
+            vars.season =
+                MediaSeason[filters.season as keyof typeof MediaSeason];
+        }
+        if (filters.format?.length) {
+            vars.format_in = filters.format.map(
+                (f) => MediaFormat[f as keyof typeof MediaFormat],
+            );
+        }
+        if (filters.airingStatus) {
+            vars.status_in =
+                MediaStatus[filters.airingStatus as keyof typeof MediaStatus];
+        }
 
         return vars;
     }, [filters]);
