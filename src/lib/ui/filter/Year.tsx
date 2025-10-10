@@ -1,4 +1,6 @@
-import { BaseFilterDropdown, FilterDropdownItem } from "./BaseFilterDropDown";
+import { FilterDropdownMenu } from "./FilterDropDownMenu";
+import { FilterDropdownMenuItem } from "./FilterDropdownMenuItem";
+
 import { useMemo } from "react";
 
 export default function Year() {
@@ -13,10 +15,14 @@ export default function Year() {
     );
 
     return (
-        <BaseFilterDropdown dropdownType="year">
+        <FilterDropdownMenu dropdownType="year">
             {years.map((year) => (
-                <FilterDropdownItem key={year} filterKey="year" value={year} />
+                <FilterDropdownMenuItem
+                    key={year}
+                    filterKey="year"
+                    value={year}
+                />
             ))}
-        </BaseFilterDropdown>
+        </FilterDropdownMenu>
     );
 }

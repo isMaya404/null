@@ -2,14 +2,15 @@ import { getAniListGenreAndTagData } from "@/lib/anilist/api";
 import { DropdownMenuItem } from "@/lib/ui/dropdown";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { AnilistGenreAndTagCollectionQuery } from "@/lib/anilist/gql/graphql";
-import { BaseFilterDropdown, FilterDropdownItem } from "./BaseFilterDropDown";
+import { FilterDropdownMenu } from "./FilterDropDownMenu";
+import { FilterDropdownMenuItem } from "./FilterDropdownMenuItem";
 import { useMemo } from "react";
 
 export default function Genres() {
     return (
-        <BaseFilterDropdown dropdownType="genres">
+        <FilterDropdownMenu dropdownType="genres">
             <GenreDropdownItems />
-        </BaseFilterDropdown>
+        </FilterDropdownMenu>
     );
 }
 
@@ -47,7 +48,7 @@ const GenreDropdownItems = () => {
             </DropdownMenuItem>
 
             {nonNullGenres.map((g) => (
-                <FilterDropdownItem key={g} filterKey="genres" value={g} />
+                <FilterDropdownMenuItem key={g} filterKey="genres" value={g} />
             ))}
 
             <DropdownMenuItem className="text-16-medium" disabled>
@@ -55,7 +56,7 @@ const GenreDropdownItems = () => {
             </DropdownMenuItem>
 
             {nonNullTags.map((t) => (
-                <FilterDropdownItem
+                <FilterDropdownMenuItem
                     key={t.name}
                     filterKey="tags"
                     value={t.name}

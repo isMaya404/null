@@ -1,17 +1,18 @@
 import { MediaSeason } from "@/lib/anilist/gql/graphql";
-import { BaseFilterDropdown, FilterDropdownItem } from "./BaseFilterDropDown";
+import { FilterDropdownMenu } from "./FilterDropDownMenu";
+import { FilterDropdownMenuItem } from "./FilterDropdownMenuItem";
 
 const Season = () => {
     return (
-        <BaseFilterDropdown dropdownType="season">
+        <FilterDropdownMenu dropdownType="season">
             {Object.keys(MediaSeason).map((season) => (
-                <FilterDropdownItem
+                <FilterDropdownMenuItem
                     key={season}
                     filterKey="season"
                     value={season}
                 />
             ))}
-        </BaseFilterDropdown>
+        </FilterDropdownMenu>
     );
 };
 

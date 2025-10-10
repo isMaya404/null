@@ -16,14 +16,13 @@ import { getCurrentSeason, getNextSeason } from "@/lib/utils/dates";
 import { Suspense, useEffect, useMemo } from "react";
 import { useFilters } from "@/stores/useFiltersStore";
 import { useDebouncedValue } from "@/hooks/useDebounce";
-import hasObjKey from "@/lib/utils/hasObjKey";
 
 const AnimeSearch = () => {
     const { filters, hasFilters } = useFilters();
 
     // map filters to the correct anilist var args
     const anilistVars: AnilistMediaQueryVariables | undefined = useMemo(() => {
-        if (!hasObjKey(filters)) return undefined;
+        if (!hasFilters()) return undefined;
 
         const vars: AnilistMediaQueryVariables = {};
 
@@ -54,9 +53,9 @@ const AnimeSearch = () => {
     // useEffect(() => {
     //     console.log("anilist vars: ", anilistVars);
     // }, [anilistVars]);
-    // useEffect(() => {
-    //     console.log("filters: ", filters);
-    // }, [filters]);
+    useEffect(() => {
+        console.log("filters: ", filters);
+    }, [filters]);
     // useEffect(() => {
     //     console.log(hasFilters);
     // }, [hasFilters]);

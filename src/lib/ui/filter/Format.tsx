@@ -1,17 +1,18 @@
-import { FilterDropdownItem, BaseFilterDropdown } from "./BaseFilterDropDown";
+import { FilterDropdownMenu } from "./FilterDropDownMenu";
+import { FilterDropdownMenuItem } from "./FilterDropdownMenuItem";
 import { MediaFormat } from "@/lib/anilist/gql/graphql";
 
 const Format = () => {
     return (
-        <BaseFilterDropdown dropdownType="format">
+        <FilterDropdownMenu dropdownType="format">
             {Object.keys(MediaFormat).map((format) => (
-                <FilterDropdownItem
+                <FilterDropdownMenuItem
                     key={format}
                     filterKey="format"
                     value={format}
                 />
             ))}
-        </BaseFilterDropdown>
+        </FilterDropdownMenu>
     );
 };
 

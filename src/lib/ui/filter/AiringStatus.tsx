@@ -1,17 +1,18 @@
-import { FilterDropdownItem, BaseFilterDropdown } from "./BaseFilterDropDown";
+import { FilterDropdownMenu } from "./FilterDropDownMenu";
+import { FilterDropdownMenuItem } from "./FilterDropdownMenuItem";
 import { MediaStatus } from "@/lib/anilist/gql/graphql";
 
 const AiringStatus = () => {
     return (
-        <BaseFilterDropdown dropdownType="airingStatus">
+        <FilterDropdownMenu dropdownType="airingStatus">
             {Object.keys(MediaStatus).map((status) => (
-                <FilterDropdownItem
+                <FilterDropdownMenuItem
                     key={status}
                     filterKey="airingStatus"
                     value={status}
                 />
             ))}
-        </BaseFilterDropdown>
+        </FilterDropdownMenu>
     );
 };
 
