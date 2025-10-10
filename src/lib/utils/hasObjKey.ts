@@ -1,8 +1,8 @@
 export default function hasObjKey<K extends object>(obj: K): boolean {
     let hasAny = false;
     for (const _key in obj) {
-        // if this loop runs at all it means
-        // there's key, so we set it to true
+        // if this loop runs at all it means there's
+        // atleast one key, so we set it to true
         hasAny = true;
         break;
     }

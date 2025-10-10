@@ -28,8 +28,16 @@ import hasObjKey from "@/lib/utils/hasObjKey";
 //   return getSnapshot();
 // }
 
-export const FILTERS: (keyof Filters)[] = ["search", "genres", "tags", "year"];
-const ARRAY_FILTERS: ArrayFilterKeys[] = ["genres", "tags"];
+export const FILTERS: (keyof Filters)[] = [
+    "search",
+    "genres",
+    "tags",
+    "year",
+    "season",
+    "format",
+    "airingStatus",
+] as const;
+const ARRAY_FILTERS: ArrayFilterKeys[] = ["genres", "tags", "format"] as const;
 
 // for faster lookup
 export const arrFilterSet = new Set<ArrayFilterKeys>(ARRAY_FILTERS);
@@ -51,21 +59,10 @@ export const filtersStore = {
         const next =
             typeof patchOrFn === "function" ? patchOrFn(filters) : patchOrFn;
 
-        // remove keys that have falsy vals so they'll not be included for
-        // syncing with URL. Also a little bit of optimization since filters is
-        // used within loops in some other places and now they'll have few
-        // iteration checks. Absolute Cinema ✋ 😐 🤚.
-        // const cleanedNext: Partial<Filters> = {};
-        // for (const k in next) {
-        //     const v = next[k as keyof Filters];
-        //     if (Array.isArray(v) ? v.length : v) {
-        //         cleanedNext[k as keyof Filters] = v;
-        //     }
-        // }
         // This is important bruh. Pass in a different obj reference so re-render works
         filters = next;
         localStorage.setItem("media-filters", JSON.stringify(filters));
-        console.log("filters: ", { filters });
+        // console.log("filters: ", { filters });
 
         listeners.forEach((cb) => cb()); // notify subscribers (triggers re-render)
     },

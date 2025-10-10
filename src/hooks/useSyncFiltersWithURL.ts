@@ -36,10 +36,12 @@ export const useSyncFiltersWithURL = () => {
         for (const key of FILTERS) {
             if (arrFilterSet.has(key as ArrayFilterKeys)) {
                 const vals = searchParams.getAll(key);
-                if (vals.length) next[key as keyof Filters] = vals;
+                if (vals.length)
+                    next[key as Extract<keyof Filters, ArrayFilterKeys>] = vals;
             } else {
                 const val = searchParams.get(key);
-                if (val) next[key as keyof Filters] = val;
+                if (val)
+                    next[key as Exclude<keyof Filters, ArrayFilterKeys>] = val;
             }
         }
 
@@ -63,10 +65,13 @@ export const useSyncFiltersWithURL = () => {
         for (const key in filters) {
             const val = filters[key as keyof Filters];
 
-            if (!val) {
+            if (!val || !val.length) {
                 searchParams.delete(key);
-                // delete filters[key as keyof Filters];
-                console.log({ filters });
+                setFilters((prev) => {
+                    const next = { ...prev };
+                    delete next[key as keyof Filters];
+                    return next;
+                });
                 continue;
             }
 
@@ -75,7 +80,7 @@ export const useSyncFiltersWithURL = () => {
                 const arrVals = Array.isArray(val) ? val : [val]; // guard against non arr vals
                 arrVals.forEach((v) => searchParams.append(key, v));
             } else {
-                searchParams.set(key, val);
+                searchParams.set(key, val as string);
             }
         }
 
