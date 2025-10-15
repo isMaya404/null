@@ -41,18 +41,22 @@
 @keyframes slide-out-right {
     from {
         transform: translateX(0);
+        opacity: 1;
     }
     to {
         transform: translateX(100%);
+        opacity: 0.3;
     }
 }
 
 @keyframes slide-out-left {
     from {
         transform: translateX(0);
+        opacity: 1;
     }
     to {
         transform: translateX(-100%);
+        opacity: 0.3;
     }
 }
 
