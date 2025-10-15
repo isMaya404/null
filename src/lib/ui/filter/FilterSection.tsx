@@ -1,4 +1,4 @@
-import Genres from "./Genres";
+import Genres from "./Genres.tsx";
 import Search from "./Search";
 import Year from "./Year";
 import Season from "./Season";

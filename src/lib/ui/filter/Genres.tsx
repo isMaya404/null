@@ -2,14 +2,15 @@ import { getAniListGenreAndTagData } from "@/lib/anilist/api";
 import { DropdownMenuItem } from "@/lib/ui/dropdown";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { AnilistGenreAndTagCollectionQuery } from "@/lib/anilist/gql/graphql";
-import { FilterDropdownMenu } from "./FilterDropDownMenu";
-import { FilterDropdownMenuItem } from "./FilterDropdownMenuItem";
+import { FilterDropdownMenu } from "./base/FilterDropDownMenu";
+import { FilterDropdownMenuItem } from "./base/FilterDropdownMenuItem";
 import { useMemo } from "react";
+import searchSubstring from "@/lib/utils/searchSubtring";
 
 export default function Genres() {
     return (
         <FilterDropdownMenu dropdownType="genres">
-            <GenreDropdownItems />
+            {(inputValue) => <GenreDropdownItems inputValue={inputValue} />}
         </FilterDropdownMenu>
     );
 }
@@ -17,7 +18,7 @@ export default function Genres() {
 // useSuspenseQuery doesn't allow "enabled: some-condition" query opts like in
 // useQuery which is to only exec the query on a condition. This is a hacky way
 // to do that
-const GenreDropdownItems = () => {
+const GenreDropdownItems = ({ inputValue }: { inputValue: string }) => {
     const { data, error, isFetching } =
         useSuspenseQuery<AnilistGenreAndTagCollectionQuery>({
             queryKey: ["anilist-genre-and-tag"],
@@ -25,21 +26,31 @@ const GenreDropdownItems = () => {
             meta: { persist: true },
         });
 
-    const nonNullGenres = useMemo(() => {
-        return (data?.GenreCollection ?? []).filter(
+    const filteredGenres = useMemo(() => {
+        const nonNullGenres = (data.GenreCollection ?? []).filter(
             (g): g is string => g != null && g !== "Hentai",
         );
-    }, [data.GenreCollection]);
 
-    const nonNullTags = useMemo(() => {
-        return (data?.MediaTagCollection ?? []).filter(
-            (t): t is NonNullable<typeof t> => t != null && !t.isAdult,
+        return searchSubstring(nonNullGenres, inputValue);
+    }, [data, inputValue]);
+
+    const filteredTags = useMemo(() => {
+        const nonNullTags = (data.MediaTagCollection ?? []).reduce<string[]>(
+            (acc, tag) => {
+                if (tag && tag.name && tag.isAdult !== true) {
+                    acc.push(tag.name);
+                }
+                return acc;
+            },
+            [],
         );
-    }, [data.MediaTagCollection]);
+
+        return searchSubstring(nonNullTags, inputValue);
+    }, [data, inputValue]);
 
     if (error && !isFetching) throw error;
-    if (nonNullGenres.length === 0 || nonNullTags.length === 0)
-        return <div className="text-center text-20-bold">No Results</div>;
+    if (!data)
+        return <div className="text-center text-16-medium">No Results</div>;
 
     return (
         <>
@@ -47,7 +58,7 @@ const GenreDropdownItems = () => {
                 GENRES
             </DropdownMenuItem>
 
-            {nonNullGenres.map((g) => (
+            {filteredGenres.map((g) => (
                 <FilterDropdownMenuItem key={g} filterKey="genres" value={g} />
             ))}
 
@@ -55,12 +66,8 @@ const GenreDropdownItems = () => {
                 TAGS
             </DropdownMenuItem>
 
-            {nonNullTags.map((t) => (
-                <FilterDropdownMenuItem
-                    key={t.name}
-                    filterKey="tags"
-                    value={t.name}
-                />
+            {filteredTags.map((t) => (
+                <FilterDropdownMenuItem key={t} filterKey="tags" value={t} />
             ))}
         </>
     );
