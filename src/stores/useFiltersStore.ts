@@ -68,8 +68,9 @@ export const filtersStore = {
     },
 
     hasFilters() {
-        if (!hasObjKey(filters)) return false;
-        return true;
+        // just so its a lil bit faster than Object.values() + .some()
+        if (objectHasValue(filters)) return true;
+        return false;
     },
 
     clearFilters: () => {

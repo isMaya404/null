@@ -191,7 +191,7 @@ const Hero = (props: AnilistMediaQueryVariables) => {
                 <DarkOverlay />
             </div>
 
-            {/* INFO: is sibling to slides container to
+            {/* Put as sibling to slides container to
       have a higher context position. */}
             {isMobile && (
                 <MobileLayout

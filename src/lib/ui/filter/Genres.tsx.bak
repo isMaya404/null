@@ -1,0 +1,71 @@
+import { getAniListGenreAndTagData } from "@/lib/anilist/api";
+import { DropdownMenuItem } from "@/lib/ui/dropdown";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { AnilistGenreAndTagCollectionQuery } from "@/lib/anilist/gql/graphql";
+import { FilterDropdownMenu } from "./base/FilterDropDownMenu";
+import { FilterDropdownMenuItem } from "./base/FilterDropdownMenuItem";
+import { useMemo, useState } from "react";
+import searchSubstring from "@/lib/utils/searchSubtring";
+
+export default function Genres() {
+    const [inputValue, setInputValue] = useState("");
+
+    const { data, error, isFetching } =
+        useSuspenseQuery<AnilistGenreAndTagCollectionQuery>({
+            queryKey: ["anilist-genre-and-tag"],
+            queryFn: getAniListGenreAndTagData,
+            meta: { persist: true },
+        });
+
+    const genres = useMemo(() => {
+        const nonNullGenres = (data.GenreCollection ?? []).filter(
+            (g): g is string => g != null && g !== "Hentai",
+        );
+
+        return searchSubstring(nonNullGenres, inputValue);
+    }, [data, inputValue]);
+
+    const tags = useMemo(() => {
+        const nonNullTags = (data.MediaTagCollection ?? []).filter(
+            (t): t is NonNullable<typeof t> => t != null && !t.isAdult,
+        );
+
+        return searchSubstring(
+            nonNullTags,
+            inputValue,
+            (nonNullTags) => nonNullTags.name,
+        );
+    }, [data, inputValue]);
+
+    if (error && !isFetching) throw error;
+    if (!data)
+        return <div className="text-center text-16-medium">No Results</div>;
+
+    return (
+        <FilterDropdownMenu
+            dropdownType="genres"
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+        >
+            <DropdownMenuItem className="text-16-medium" disabled>
+                GENRES
+            </DropdownMenuItem>
+
+            {genres.map((g) => (
+                <FilterDropdownMenuItem key={g} filterKey="genres" value={g} />
+            ))}
+
+            <DropdownMenuItem className="text-16-medium" disabled>
+                TAGS
+            </DropdownMenuItem>
+
+            {tags.map((t) => (
+                <FilterDropdownMenuItem
+                    key={t.name}
+                    filterKey="tags"
+                    value={t.name}
+                />
+            ))}
+        </FilterDropdownMenu>
+    );
+}

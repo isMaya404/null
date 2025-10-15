@@ -11,6 +11,7 @@
     // explicitly set). Otherwise respect the OS and use that
     const theme =
         stored && stored !== "system" ? stored : prefersDark ? "dark" : "light";
+
     document.documentElement.setAttribute("data-theme", theme);
 
     const style = document.createElement("style");
@@ -28,6 +29,7 @@
       color: var(--fg);
     }
   `;
-    // append to head to avoid FOUC
+
+    // append to head to avoid flash of unstyled content (FOUC)
     document.head.appendChild(style);
 })();
