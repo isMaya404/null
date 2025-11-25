@@ -66,7 +66,7 @@ export const DropdownMenuContent = forwardRef<
 
             const next: React.CSSProperties = {
                 position: "fixed",
-                zIndex: 1000,
+                zIndex: 300,
             };
 
             if (side === "bottom") {
